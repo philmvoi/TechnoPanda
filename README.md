@@ -1,2 +1,2 @@
-# CIS-4375
+# TechnoPanda
 Final Project
