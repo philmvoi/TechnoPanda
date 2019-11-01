@@ -1,58 +1,77 @@
-import React, {Component, useState} from 'react';
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
+import React, {useState} from 'react';
+// import Form from 'react-validation/build/form';
+import HandleFormHook from './handleFormHook';
 import DDown from '../Components/DDown';
 import BaseSelect from "react-select";
 import PropTypes from "prop-types";
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query,graphql } from 'react-apollo';
 import { Table } from 'reactstrap';
 import { loadPartialConfig } from '@babel/core';
 import ReactTable from 'react-table'
+import 'react-table/react-table.css';
+import CustomerAdd from './CustomerAdd';
 
-// const GET_STATES = gql`
-//     {
-//     allStates {
-//       state_id,
-//       state_name
-//   }
-// }
-// `;
-const columns = [
-  {
-    Header: "ID",
-    accessor: "state_id"
-  },
-  {
-    Header: "State Name",
-    accessor: "state_name"
-  }
-]
+import CustomerList from './CustomerList';
 
-const Customer = () => (
-  <Query query={
-    gql` {
-    allStates {
-      state_id,
-      state_name
-  }
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Container, FormGroup,
+  Label, FormFeedback } from 'reactstrap';
+  import { Form as FinalForm, Field } from 'react-final-form';
+  import Form from 'react-validation/build/form';
+  import Input from 'react-validation/build/input';
+
+export const GET_STATES = 
+gql` {
+  allStates {
+    state_id,
+    state_name
+}
 
 }
-`
-}>
-   { ({loading, error, data}) => {
-   if(loading) return <p>Good things take time....</p>
-   if (error) return <p>Something went wrong</p>
+`;
 
-   return <ReactTable
-    data={data.allStates}
-    columns={columns}
-   
-   />
-   }}
-  </Query>
-);
+
+const Customer = () =>  { 
+  const handleSubmit= () => {
+
+  }
+  
+  const [modal, setModal] = useState(false);
+
+  const toggle = () => setModal(!modal);
+
+
+    return (
+      <div>  
+         <div>
+         <Modal isOpen={modal} toggle={toggle} >
+        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalBody>
+        <CustomerAdd />
+ 
+        </ModalBody>
+        {/* <ModalFooter>
+          <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
+          <Button color="secondary" onClick={toggle}>Cancel</Button>
+        </ModalFooter> */}
+      </Modal>
+         </div>
+        <CustomerList />
+        <Container fluid>
+      <Button
+              className="my-2"
+              color="primary"
+              onClick={toggle}
+            >
+              Add State
+      </Button>
+      </Container>
+      </div>
+    )
+  
+}
+
 
 // const Select = props => (
 //   <DDown

@@ -8,12 +8,15 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ApolloProvider } from 'react-apollo';
+import {ApolloProvider as ApolloProviderHooks} from 'react-apollo-hooks'
 import client from './apollo';
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render(
 <ApolloProvider client={client}>
-   <App />
+    <ApolloProviderHooks client={client}>
+        <App />
+    </ApolloProviderHooks>
 </ApolloProvider>,
     document.getElementById('root')
 );
