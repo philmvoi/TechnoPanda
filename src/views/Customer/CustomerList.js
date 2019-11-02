@@ -1,12 +1,17 @@
 import React, {useState} from "react";
 import { graphql } from "react-apollo";
-import {getStatesQuery} from "./queries";
+import {getStatesQuery, EditStateMutation} from "./queries";
 import ReactTable from 'react-table';
+import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
+import { FormGroup, Label } from 'reactstrap';
+import { compose } from "recompose";
 
 const columns = [
     {
       Header: "ID",
-      accessor: "state_id"
+      accessor: "state_id",
     },
     {
       Header: "State Name",
@@ -14,39 +19,74 @@ const columns = [
     }
   ]
 
+  
 const CustomerList = props => {
-  console.log(props);
+  
   const [selected, setSelected] = useState({
       selected: [],
   });
 
-//   function changeSelected(e) {
-//       setSelected(e)
-//   };
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
 
   const [row, setRow] = useState({
       row: []
   });
 
+  const [name, setName] = useState({
+    name: [],
+});
+
   function changeSelected(e) {
       setSelected(e)
   };
 
+  function changeRow(e) {
+    setRow(e)
+  };
+
+  function changeName(e) {
+    setName(e)
+  };
+
+
   const displayStates = () => {
-    const data = props.data;
+
+    const handleSubmit = event => {
+      if (event) event.preventDefault();
+      props.EditStateMutation({
+        variables: {
+          id: row,
+          name: name
+        },
+        refetchQueries: [{query: getStatesQuery}]
+      });
+    
+    
+    };
+    const handleInputChange = event => {
+      event.persist();
+      changeName(event.target.value);
+    };
+  
+
+    const data = props.getStatesQuery;
     if (data.loading) {
       return <div>Loading States...</div>;
     } else {
         return (
+          <div>
             <ReactTable
                 data={data.allStates}
-                getTrProps={(state, rowInfo) => {
+                getTrProps={(state, rowInfo, instance) => {
                 if (rowInfo && rowInfo.row) {
                     return {
                     onClick: (e) => {
-                        changeSelected(
-                        rowInfo.index
-                        )
+                        changeSelected(rowInfo.index);
+                        
+                        changeRow(rowInfo.row._original.state_id);
+                        changeName(rowInfo.row._original.state_name)
+                        console.log(name);
                     },
                     style: {
                         background: rowInfo.index === selected ? '#00afec' : 'white',
@@ -67,6 +107,44 @@ const CustomerList = props => {
                 className="-striped -highlight"
             
             />
+
+            <div>
+                <Modal isOpen={modal} toggle={toggle} >
+                  <ModalHeader toggle={toggle}>Edit State</ModalHeader>
+                  <ModalBody>
+                      <Form onSubmit={handleSubmit}>
+              
+          
+                          <FormGroup>
+                            <Label>State Name</Label>
+                            <Input
+                              value={name}
+                              name="state_name"
+                              className="form-control"
+                              onChange = {handleInputChange}
+                              required
+                            />
+                          </FormGroup>
+
+                          <Button onClick={toggle} className="form-control" color="primary" type="submit">Edit State</Button>
+              
+                    </Form>
+          
+                  </ModalBody>
+                </Modal>
+
+                <Container fluid>
+                  <Button
+                          className="my-2"
+                          color="primary"
+                          onClick={toggle}
+                        >
+                          Edit
+                  </Button>
+                </Container>
+            </div>
+
+            </div>
         )
       
     }
@@ -75,9 +153,13 @@ const CustomerList = props => {
   return (
     <>
       {displayStates()}
+      
     </>
   );
 };
 
-export default graphql(getStatesQuery)(CustomerList);
+export default compose(
+  graphql(getStatesQuery, { name: "getStatesQuery" }),
+  graphql(EditStateMutation, { name: "EditStateMutation" })
+)(CustomerList);
 

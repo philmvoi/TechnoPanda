@@ -18,5 +18,24 @@ const AddStateMutation = gql`
   }
 `;
 
+const EditStateMutation = gql `
+  mutation ($id: Int!, $name: String!) {
+    updateState(state_id: $id, state_name: $name) {
+      state_name,
+      state_id
+  }
+}
 
-export {getStatesQuery, AddStateMutation};
+`
+const getStateById = gql `
+  query ($id: Int!) {
+    getState(state_id: $id) {
+      state_name,
+      state_id
+  }
+}
+
+`
+
+
+export {getStatesQuery, AddStateMutation, EditStateMutation, getStateById};

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-// import Form from 'react-validation/build/form';
 import HandleFormHook from './handleFormHook';
 import DDown from '../Components/DDown';
 import BaseSelect from "react-select";
@@ -15,27 +14,12 @@ import CustomerAdd from './CustomerAdd';
 
 import CustomerList from './CustomerList';
 
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Container, FormGroup,
-  Label, FormFeedback } from 'reactstrap';
-  import { Form as FinalForm, Field } from 'react-final-form';
-  import Form from 'react-validation/build/form';
-  import Input from 'react-validation/build/input';
+import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
+ 
 
-export const GET_STATES = 
-gql` {
-  allStates {
-    state_id,
-    state_name
-}
-
-}
-`;
 
 
 const Customer = () =>  { 
-  const handleSubmit= () => {
-
-  }
   
   const [modal, setModal] = useState(false);
 

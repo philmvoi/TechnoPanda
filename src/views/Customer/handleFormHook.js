@@ -7,6 +7,7 @@ const HandleFormHook = (callback, validate) => {
     if (event) event.preventDefault();
     callback();
   };
+  
   const handleInputChange = event => {
     event.persist();
     setInputs(inputs => ({
