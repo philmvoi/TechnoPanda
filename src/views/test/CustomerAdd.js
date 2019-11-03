@@ -1,10 +1,10 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import HandleFormHook from "./handleFormHook";
+import HandleFormHook from "../Customer/handleFormHook";
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { FormGroup, Label, Button } from 'reactstrap';
-import {getStatesQuery, AddStateMutation} from "./queries";
+import {getStatesQuery, AddStateMutation} from "../Customer/queries";
 import { compose } from "recompose";
     
 const CustomerAdd = props => {

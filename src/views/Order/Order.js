@@ -1,16 +1,40 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import PropTypes from "prop-types";
+import OrderList from './List'
+import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
+ 
 
-class Order extends Component {
-    render() {
+const Order = () => {
+    
+  const [modal, setModal] = useState(false);
+
+  const toggle = () => setModal(!modal);
       
       return (
-        <React.Fragment>
+        <div>
+           <div>
+            <Modal isOpen={modal} toggle={toggle} >
+              <ModalHeader toggle={toggle}>Add Customer</ModalHeader>
+              <ModalBody>
+              
+      
+              </ModalBody>
           
-      </React.Fragment>
+            </Modal>
+         </div>
+            <OrderList />
+            <Container fluid>
+              <Button
+                      className="my-2"
+                      color="primary"
+                      onClick={toggle}
+                    >
+                      Add Order
+              </Button>
+            </Container>
+      </div>
       )
-    }
+    
    }
     
 export default Order
-   

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { graphql } from "react-apollo";
-import {getStatesQuery, EditStateMutation} from "./queries";
+import {getOrdersQuery} from "./queries";
 import ReactTable from 'react-table';
 import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
 import Form from 'react-validation/build/form';
@@ -11,16 +11,97 @@ import { compose } from "recompose";
 const columns = [
     {
       Header: "ID",
-      accessor: "state_id",
+      accessor: "order_id",
     },
     {
-      Header: "State Name",
-      accessor: "state_name"
+      Header: "Customer ID",
+      accessor: "customer_id",
+      show: false
+    },
+    {
+      Header: "Last Name",
+      accessor: "customer_last_name",
+    },
+    {
+      Header: "Phone",
+      accessor: "customer_phone_number",
+    },
+    {
+      Header: "Order Status ID",
+      accessor: "order_status_id",
+      show: false
+    },
+    {
+      Header: "Status",
+      accessor: "order_status_id",
+    },
+    {
+      Header: "Pay Method ID",
+      accessor: "order_payment_method_id",
+      show: false
+    },
+    {
+      Header: "Pay Method",
+      accessor: "order_payment_method"
+    },
+    {
+      Header: "Delivery/Pick-up Id",
+      accessor: "order_fulfillment_method_id",
+      show: false
+    },
+    {
+      Header: "Delivery/Pick-up",
+      accessor: "order_fulfillement_method"
+    },
+    {
+      Header: "Plan Id",
+      accessor: "plan_type_id",
+      show: false
+    },
+    {
+      Header: "Received",
+      accessor: "order_received_date"
+    },
+    {
+      Header: "Due",
+      accessor: "order_due_date"
+    },
+    {
+      Header: "Delivery Street",
+      accessor: "order_delivery_street"
+    },
+    {
+      Header: "Delivery City",
+      accessor: "order_delivery_city"
+    },
+    {
+      Header: "Delivery Zip ",
+      accessor: "order_delivery_zipcode"
+    },
+    {
+      Header: "Complete Date",
+      accessor: "order_completed_date"
+    },
+    {
+      Header: "Delivery By",
+      accessor: "order_deliver_by"
+    },
+    {
+      Header: "Total",
+      accessor: "order_total_price"
+    },
+    {
+      Header: " Special Reqs",
+      accessor: "special_requirements"
+    },
+    {
+      Header: "Payment Amt",
+      accessor: "payment_amount"
     }
   ]
 
   
-const CustomerList = props => {
+const OrderList = props => {
   
   const [selected, setSelected] = useState({
       selected: [],
@@ -50,43 +131,43 @@ const CustomerList = props => {
   };
 
 
-  const displayStates = () => {
+  const displayOrders = () => {
 
-    const handleSubmit = event => {
-      if (event) event.preventDefault();
-      props.EditStateMutation({
-        variables: {
-          id: row,
-          name: name
-        },
-        refetchQueries: [{query: getStatesQuery}]
-      });
+    // const handleSubmit = event => {
+    //   if (event) event.preventDefault();
+    //   props.EditStateMutation({
+    //     variables: {
+    //       id: row,
+    //       name: name
+    //     },
+    //     refetchQueries: [{query: getStatesQuery}]
+    //   });
     
     
-    };
-    const handleInputChange = event => {
-      event.persist();
-      changeName(event.target.value);
-    };
+    // };
+    // const handleInputChange = event => {
+    //   event.persist();
+    //   changeName(event.target.value);
+    // };
   
 
-    const data = props.getStatesQuery;
+    const data = props.getOrdersQuery;
     if (data.loading) {
-      return <div>Loading States...</div>;
+      return <div>Loading Orders...</div>;
     } else {
         return (
           <div>
             <ReactTable
-                data={data.allStates}
+                data={data.allOrders}
                 getTrProps={(state, rowInfo, instance) => {
                 if (rowInfo && rowInfo.row) {
                     return {
                     onClick: (e) => {
                         changeSelected(rowInfo.index);
                         
-                        changeRow(rowInfo.row._original.state_id);
-                        changeName(rowInfo.row._original.state_name)
-                        console.log(name);
+                        // changeRow(rowInfo.row._original.state_id);
+                        // changeName(rowInfo.row._original.state_name)
+                        // console.log(name);
                     },
                     style: {
                         background: rowInfo.index === selected ? '#00afec' : 'white',
@@ -107,7 +188,7 @@ const CustomerList = props => {
                 className="-striped -highlight"
             
             />
-
+{/* 
             <div>
                 <Modal isOpen={modal} toggle={toggle} >
                   <ModalHeader toggle={toggle}>Edit State</ModalHeader>
@@ -142,7 +223,7 @@ const CustomerList = props => {
                           Edit
                   </Button>
                 </Container>
-            </div>
+            </div> */}
 
             </div>
         )
@@ -152,14 +233,14 @@ const CustomerList = props => {
 
   return (
     <>
-      {displayStates()}
+      {displayOrders()}
       
     </>
   );
 };
 
 export default compose(
-  graphql(getStatesQuery, { name: "getStatesQuery" }),
-  graphql(EditStateMutation, { name: "EditStateMutation" })
-)(CustomerList);
+  graphql(getOrdersQuery, { name: "getOrdersQuery" }),
+
+)(OrderList);
 
