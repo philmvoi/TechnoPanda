@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql }  from 'apollo-boost';
 
 const getOrderStatQuery = gql`
 {
@@ -76,7 +76,7 @@ const getOrdersQuery = gql`
 
 const AddOrderMutation = gql`
   mutation($cust: Int!, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String!, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String!) {
-    createOrderr(input:{
+    createOrder(input:{
         customer_id: $cust,
         order_status_id: $status,
         order_payment_method_id: $opm,
@@ -95,9 +95,48 @@ const AddOrderMutation = gql`
     
     }) {
       customer_id
-      state_id
     }
   }
 `;
 
-export {getOrdersQuery, AddOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery }
+const EditOrderMutation = gql`
+  mutation($id: Int!, $cust: Int, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String!, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String!) {
+    updateOrder(input:{
+        customer_id: $cust,
+        order_status_id: $status,
+        order_payment_method_id: $opm,
+        order_fulfillment_method_id: $ofm,
+        plan_type_id: $plan,
+        order_due_date: $due
+        order_received_date: $received
+        order_delivery_street: $street
+        order_delivery_city: $city
+        order_delivery_zipcode: $zip,
+        order_completed_date: $completed
+        order_deliver_by: $delBy
+        order_total_price: $total
+        special_requirements: $spec
+        payment_amount: $pa
+    
+    }, order_id: $id) {
+      customer_id
+    }
+  }
+  `;
+
+const getOrderOrderlines = gql`
+ {
+  allOrderOrderLines {
+    order_line_id
+    order_id
+    package_description,
+    package_name
+    order_line_quantity
+    price
+  }
+}
+`;
+
+ 
+
+export {getOrdersQuery, AddOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, EditOrderMutation, getOrderOrderlines};

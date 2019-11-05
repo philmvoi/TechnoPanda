@@ -6,7 +6,17 @@ import Input from 'react-validation/build/input';
 import { FormGroup, Label, Button } from 'reactstrap';
 import {getStatesQuery, AddCustomerMutation, getCustomersQuery} from "./queries";
 import { compose } from "recompose";
-import Select from 'react-select';
+// import Select from 'react-select';
+import DDown from '../Components/DDown';
+import BaseSelect from "react-select";
+
+const Select = props => (
+  <DDown
+    {...props}
+    SelectComponent={BaseSelect}
+
+  />
+);
     
 const CustomerAdd = props => {
 
@@ -86,13 +96,14 @@ const CustomerAdd = props => {
              <div class="form-group col-md-4">
                <label for="state">State <i className="text-danger">required</i></label>
                <Select id="inputState" class="form-control"
+                  {...props}
                    closeMenuOnSelect={false}
-                   
+                   SelectComponent={BaseSelect}
                    value={inputs.state}
                    hideSelectedOptions={false}
                    backspaceRemovesValue={false}
                    placeholder="Select a state"
-                   required
+                 
                    onChange = {event => {
                      console.log(event.state_id)
                      state_id = event.state_id
@@ -104,7 +115,7 @@ const CustomerAdd = props => {
                    options={data.allStates}
                    getOptionLabel={(option) => option.state_name}
                    getOptionValue={(option) => option.state_id}
-                   required={true}
+                  
                    />
              
              </div>

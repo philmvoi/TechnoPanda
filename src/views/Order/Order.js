@@ -1,28 +1,35 @@
+//THIS IS THE PARENT COMPONENT FOR THE ORDER MODULE. THIS IS ESSENTIALLY WHERE EVERY THING IS CALLED AND RENDERED
 import React, {useState} from 'react';
 import PropTypes from "prop-types";
 import OrderList from './List'
 import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
+import OrderAdd from './Add';
+import {getOrdersQuery} from './queries'
+import { compose } from "recompose";
+import { graphql } from "react-apollo";
  
 
-const Order = () => {
+const Order = props => {
     
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
+
+  const data = props.getOrdersQuery;
       
       return (
         <div>
            <div>
-            <Modal isOpen={modal} toggle={toggle} >
-              <ModalHeader toggle={toggle}>Add Customer</ModalHeader>
+            <Modal isOpen={modal} toggle={toggle}  >
+              <ModalHeader toggle={toggle}>Add Order</ModalHeader>
               <ModalBody>
-              
+              <OrderAdd />
       
               </ModalBody>
           
             </Modal>
          </div>
-            <OrderList />
+              <OrderList />  
             <Container fluid>
               <Button
                       className="my-2"
@@ -36,5 +43,4 @@ const Order = () => {
       )
     
    }
-    
 export default Order
