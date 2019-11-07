@@ -244,7 +244,6 @@ export default compose(
   graphql(getOfmQuery, { name: "getOfmQuery" }),
   graphql(getOpmQuery, { name: "getOpmQuery" }),
   graphql(getPlanQuery, { name: "getPlanQuery" }),
-
 )(OrderAdd);
 
 

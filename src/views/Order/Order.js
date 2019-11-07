@@ -20,6 +20,15 @@ const Order = props => {
       return (
         <div>
            <div>
+           <Container fluid>
+              <Button
+                      className="my-2"
+                      color="primary"
+                      onClick={toggle}
+                    >
+                      Add Order
+              </Button>
+            </Container>
             <Modal isOpen={modal} toggle={toggle}  >
               <ModalHeader toggle={toggle}>Add Order</ModalHeader>
               <ModalBody>
@@ -30,15 +39,7 @@ const Order = props => {
             </Modal>
          </div>
               <OrderList />  
-            <Container fluid>
-              <Button
-                      className="my-2"
-                      color="primary"
-                      onClick={toggle}
-                    >
-                      Add Order
-              </Button>
-            </Container>
+          
       </div>
       )
     

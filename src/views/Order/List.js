@@ -12,10 +12,10 @@ import { FormGroup, Label } from 'reactstrap';
 import { compose } from 'recompose';
 import Select from 'react-select';
 
-import { getOrderOrderlines, getOrdersQuery, EditOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery} from './queries';
+import { getOrderOrderlines, getOrdersQuery, EditOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, AddOrderlineMutation, getPackagesQuery} from './queries';
 
-
-
+// for adding packages
+let package_id = null;
 
 // columns for the orderline table
 const olColumns = [
@@ -207,6 +207,9 @@ const OrderList = props => {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
+  const [packageModal, setPackageModal] = useState(false);
+  const packageToggle = () => setPackageModal(!packageModal);
+
   //to hold and set the order_id value
 const [row, setRow] = useState({
       row: []
@@ -271,11 +274,46 @@ const [pa, setPa] = useState({
     setRow(e)
   };
 
+
   
+  // all of this to handle changes in the add package form
+  const [packageInputs, setPackageInputs] = useState({});
+
   const displayOrders = () => {
 
-   
 
+ 
+  
+// all of this to handle changes in the add package form
+  const handlePackageAddSubmit = event => {
+    if (event){
+       event.preventDefault();
+       props.AddOrderlineMutation({
+         variables: {
+           order: row,
+           package: package_id,
+           quant: packageInputs.quant,
+           price: packageInputs.price
+         },
+         refetchQueries: [{query: getOrderOrderlines}]
+       })
+
+    }
+  
+  };
+  
+// all of this to handle changes in the add package form
+  const handlePackageInputChange = event => {
+    event.persist();
+    
+    setPackageInputs(packageInputs => ({
+      ...packageInputs,
+      [event.target.name]: event.target.value
+    }));
+  };
+
+
+// all of this to edit an order
     const handleSubmit = event => {
       if (event) event.preventDefault();
       props.EditOrderMutation({
@@ -311,6 +349,7 @@ const [pa, setPa] = useState({
   const opmData = props.getOpmQuery;
   const ofmData = props.getOfmQuery;
   const planData = props.getPlanQuery;
+  const packageData = props.getPackagesQuery;
   
   const olData = props.getOrderOrderlines
 
@@ -367,7 +406,7 @@ const [pa, setPa] = useState({
                 className="-striped -highlight"
             
             /> 
-             <div>
+             <div> {/* modal and form to edit orders*/}
                 <Modal isOpen={modal} toggle={toggle} >
                   <ModalHeader toggle={toggle}>Edit State</ModalHeader>
                   <ModalBody>
@@ -537,7 +576,58 @@ const [pa, setPa] = useState({
                         >
                           Edit Order
                   </Button>
+                  <Button onClick={packageToggle} className="form-control" color="primary" type="submit">Add Package</Button>
                 </Container>
+
+                <Modal isOpen={packageModal} toggle={packageToggle} >
+                  <ModalHeader toggle={packageToggle}>Add Package</ModalHeader>
+                  <ModalBody>
+                      <Form onSubmit={handlePackageAddSubmit}>
+              
+          
+                          <FormGroup>
+                            <label for="cust">Package <i className="text-danger">*</i></label>
+                            <Select id="package" class="form-control"
+                                {...props}
+                                closeMenuOnSelect={true}
+                                value={packageInputs.package}
+                                hideSelectedOptions={false}
+                                backspaceRemovesValue={false}
+                                placeholder="Select.."
+                                required
+                                onChange = {event => {
+                                  
+                                  package_id = event.package_id
+                                  console.log(package_id)
+                                }}
+                                name="package"
+                                options={packageData.allPackage}
+                                getOptionLabel={(option) => option.package_name}
+                                getOptionValue={(option) => option.package_id}
+                                />
+             
+                              <Label> Price</Label>
+                              <Input
+                                name="price"
+                                className="form-control"
+                                onChange = {handlePackageInputChange}
+                                required
+                              />
+                              <Label>Quantity</Label>
+                              <Input
+                                name="quant"
+                                className="form-control"
+                                onChange = {handlePackageInputChange}
+                                required
+                              />
+                          </FormGroup>
+                          <Button type="submit" class="btn btn-primary">Save</Button>
+                          
+              
+                    </Form>
+          
+                  </ModalBody>
+                </Modal>
 
                 <ReactTable 
                   data={olData.allOrderOrderLines}
@@ -577,5 +667,7 @@ export default compose(
   graphql(getPlanQuery, { name: "getPlanQuery" }),
   graphql(EditOrderMutation, { name: "EditOrderMutation" }),
   graphql(getOrderOrderlines, { name: "getOrderOrderlines" }),
+  graphql(AddOrderlineMutation, { name: "AddOrderlineMutation" }),
+  graphql(getPackagesQuery, { name: "getPackagesQuery" }),
 )(OrderList);
 

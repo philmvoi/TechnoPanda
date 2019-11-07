@@ -137,6 +137,28 @@ const getOrderOrderlines = gql`
 }
 `;
 
+const AddOrderlineMutation = gql`
+  mutation($order: Int!, $package: Int!, $quant: String!, $price: String) {
+      createOrderLine(input:{  
+        order_id: $order,
+        package_id: $package,
+        order_line_quantity: $quant,
+        price: $price
+    }) {
+      order_id
+    }
+  }
+`;
+
+const getPackagesQuery = gql`
+{
+    allPackage {
+      package_id,
+      package_name
+  }
+}
+`;
+
  
 
-export {getOrdersQuery, AddOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, EditOrderMutation, getOrderOrderlines};
+export {getOrdersQuery, AddOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, EditOrderMutation, getOrderOrderlines, AddOrderlineMutation, getPackagesQuery};
