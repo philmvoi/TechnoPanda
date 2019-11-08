@@ -238,7 +238,7 @@ const [ig, setIg] = useState({
  
              <div>
                 <Modal isOpen={modal} toggle={toggle} >
-                   <ModalHeader toggle={toggle}>Edit State</ModalHeader>
+                   <ModalHeader toggle={toggle}>Edit Customer</ModalHeader>
                    <ModalBody>
                    <Form onSubmit={handleSubmit}>
                       <div class="form-row">
@@ -322,15 +322,14 @@ const [ig, setIg] = useState({
                    </ModalBody>
                  </Modal>
 
-                 <Container fluid>
+                 <div class="btn-group" role="group" aria-label="Button group example">
                    <Button
-                           className="my-2"
                            color="primary"
                            onClick={toggle}
                          >
                            Edit Customer
                    </Button>
-                 </Container>
+                 </div>
              </div>
 
             </div>

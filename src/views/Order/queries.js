@@ -133,6 +133,7 @@ const getOrderOrderlines = gql`
     package_name
     order_line_quantity
     price
+    package_id
   }
 }
 `;
@@ -150,6 +151,18 @@ const AddOrderlineMutation = gql`
   }
 `;
 
+const EditOrderlineMutation = gql`
+  mutation($id: Int!, $package: Int!, $quant: String!, $price: String) {
+      updateOrderLine(input:{  
+        package_id: $package,
+        order_line_quantity: $quant,
+        price: $price
+    }, order_line_id: $id) {
+      order_id
+    }
+  }
+`;
+
 const getPackagesQuery = gql`
 {
     allPackage {
@@ -159,6 +172,52 @@ const getPackagesQuery = gql`
 }
 `;
 
+const getMealListQuery = gql `
+{
+    allMlJoin{
+      meal_list_id,
+      meal_id,
+      meal_name
+      package_id
+      package_name
+      meal_list_quantity
+    }
+  
+}
+`;
+
+const AddMealListMutation = gql`
+  mutation($meal: Int!, $package: Int!, $quant: String!) {
+      createMealList(input:{  
+        meal_id: $meal,
+        package_id: $package,
+        meal_list_quantity: $quant,
+    }) {
+      meal_id
+    }
+  }
+`;
+
+const EditMealListMutation = gql`
+  mutation($id: Int!, $meal: Int!, $quant: String!) {
+      updateMealList(input:{  
+        meal_id: $meal,
+        meal_list_quantity: $quant,
+    }, meal_list_id: $id) {
+      meal_id
+    }
+  }
+`;
+
+const getMealsQuery = gql `
+{
+  allMeal{
+    meal_id
+    meal_name
+  }
+}
+`
+
  
 
-export {getOrdersQuery, AddOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, EditOrderMutation, getOrderOrderlines, AddOrderlineMutation, getPackagesQuery};
+export {getOrdersQuery, AddOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, EditOrderMutation, getOrderOrderlines, AddOrderlineMutation, getPackagesQuery, EditOrderlineMutation, getMealListQuery, AddMealListMutation, getMealsQuery, EditMealListMutation};

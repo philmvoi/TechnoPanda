@@ -29,26 +29,26 @@ const Customer = () =>  {
     return (
       <div>  
          <div>
-         <Modal isOpen={modal} toggle={toggle} >
-        <ModalHeader toggle={toggle}>Add Customer</ModalHeader>
-        <ModalBody>
-        <CustomerAdd />
- 
-        </ModalBody>
-       
-      </Modal>
+            <Modal isOpen={modal} toggle={toggle} >
+            <ModalHeader toggle={toggle}>Add Customer</ModalHeader>
+            <ModalBody>
+            <CustomerAdd />
+    
+            </ModalBody>
+          
+            </Modal>
          </div>
-        <CustomerList />
-        <Container fluid>
-      <Button
-              className="my-2"
-              color="primary"
-              onClick={toggle}
-            >
-              Add Customer
-      </Button>
-      </Container>
-      </div>
+         <div class="btn-group" role="group" aria-label="Button group example">
+          <Button
+                  color="dark"
+                  onClick={toggle}
+                >
+                  Add Customer
+          </Button>
+         </div>
+         <CustomerList />
+      
+        </div>
     )
   
 }

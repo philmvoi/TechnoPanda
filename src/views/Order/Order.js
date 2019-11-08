@@ -20,15 +20,15 @@ const Order = props => {
       return (
         <div>
            <div>
-           <Container fluid>
+           <div class="btn-group" role="group" aria-label="Button group example">
               <Button
-                      className="my-2"
-                      color="primary"
+                      // className="my-2"
+                      color="dark"
                       onClick={toggle}
                     >
                       Add Order
               </Button>
-            </Container>
+            </div>
             <Modal isOpen={modal} toggle={toggle}  >
               <ModalHeader toggle={toggle}>Add Order</ModalHeader>
               <ModalBody>

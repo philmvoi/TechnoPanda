@@ -12,10 +12,41 @@ import { FormGroup, Label } from 'reactstrap';
 import { compose } from 'recompose';
 import Select from 'react-select';
 
-import { getOrderOrderlines, getOrdersQuery, EditOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, AddOrderlineMutation, getPackagesQuery} from './queries';
+import { getOrderOrderlines, getOrdersQuery, EditOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, AddOrderlineMutation, getPackagesQuery, EditOrderlineMutation, getMealListQuery, AddMealListMutation, getMealsQuery, EditMealListMutation} from './queries';
 
 // for adding packages
 let package_id = null;
+let meal_id = null;
+
+//columns for meallist table
+const mlColumns = [
+  {
+    Header: "ID",
+    accessor: "meal_list_id",
+    show: true
+  }, 
+  {
+    Header: "Meal ID",
+    accessor: "meal_id",
+    show: false
+  }, 
+  {
+    Header: "Meal",
+    accessor: "meal_name",
+  }, 
+  {
+    Header: "Package ID",
+    accessor: "package_id",
+  }, 
+  {
+    Header: "Package",
+    accessor: "package_name",
+  }, 
+  {
+    Header: "Quantity",
+    accessor: "meal_list_quantity",
+  }, 
+]
 
 // columns for the orderline table
 const olColumns = [
@@ -30,6 +61,11 @@ const olColumns = [
   {
     Header: "Package Name",
     accessor: "package_name",
+  },
+  {
+    Header: "Package ID",
+    accessor: "package_id",
+    show: false
   },
   {
     Header: "Package Desc",
@@ -142,7 +178,29 @@ const columns = [
     }
   ];
 
+// To hold the selected row customer information
+let selectedPackage = {
+  package_id: '',
+  package_name: ''
+};
 
+let selectedMeal = {
+  meal_id: '',
+  meal_name: ''
+};
+
+
+
+const handleMealChange = (e, j) => {
+  selectedMeal.meal_id = e
+  selectedMeal.meal_name = j
+};
+
+
+const handlePackageChange =(e, j) => {
+  selectedPackage.package_id = e
+  selectedPackage.package_name = j
+};
 
 // To hold the selected row customer information
   let selectedCustomer = {
@@ -199,22 +257,63 @@ const columns = [
 
 const OrderList = props => {
 
-  //the selected column
+  //the selected row
   const [selected, setSelected] = useState({
       selected: [],
   });
-
+//these are for toggling the different modals we have in the order module
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
   const [packageModal, setPackageModal] = useState(false);
   const packageToggle = () => setPackageModal(!packageModal);
 
+  const [packageEditModal, setPackageEditModal] = useState(false);
+  const packageEditditoggle = () => setPackageEditModal(!packageEditModal);
+
+  const [mealModal, setMealModal] = useState(false);
+  const mealToggle = () => setMealModal(!mealModal);
+
+  const [mealEditModal, setEditMealModal] = useState(false);
+  const mealEditToggle = () => setEditMealModal(!mealEditModal);
+
+  //to hold and set the order_id value
+const [mlRow, setMlRow] = useState({
+  mlRow: []
+});
+
+const [mlquant, setMlquant] = useState({
+  mlquant:[]
+})
+//to hold order_line_id value
+const [olRow, setOlrow] = useState({
+  olRow: []
+}) 
+
+//the selected orderline row
+const [selectedOl, setSelectedOl] = useState({
+  selectedOl: [],
+});
+
+//the selected meallist row
+const [selectedMlRow, setSelectedMlRow] = useState({
+  selectedMlRow: [],
+})
+
   //to hold and set the order_id value
 const [row, setRow] = useState({
       row: []
   });
 
+//to hold and set the quantity value in a orderline 
+const [quant, setQuant] = useState({
+  quant: [],
+});
+
+//to hold and set the price value in a orderline 
+const [price, setPrice] = useState({
+  price: [],
+});
   //to hold and set the due date value 
 const [due, setDue] = useState({
     due: [],
@@ -279,10 +378,56 @@ const [pa, setPa] = useState({
   // all of this to handle changes in the add package form
   const [packageInputs, setPackageInputs] = useState({});
 
+   // all of this to handle changes in the add meal form
+   const [mealInputs, setMealInputs] = useState({});
+
   const displayOrders = () => {
 
+// all of this is to handle changes to the add meal form
+const handleMealAddSubmit = event => {
+  if (event) {
+    event.preventDefault();
+    props.AddMealListMutation ({
+      variables: {
+        meal: meal_id,
+        package: selectedPackage.package_id,
+        quant: mealInputs.mlquant
+      },
+      refetchQueries: [{query: getMealListQuery}]
+    })
+  }
+};
 
- 
+const handleMealEditSubmit = event => {
+  if (event) {
+    event.preventDefault();
+    props.EditMealListMutation ({
+      variables: {
+        id: mlRow,
+        meal: selectedMeal.meal_id,
+        quant: mlquant
+      },
+      refetchQueries: [{query: getMealListQuery}]
+    })
+  }
+};
+
+
+ // all of this is to handle chages to edit package form
+ const handlePackageEditSubmit = event => {
+   if (event) {
+     event.preventDefault();
+     props.EditOrderlineMutation ({
+      variables: {
+        id: olRow,
+        package: selectedPackage.package_id,
+        quant: quant.toString(),
+        price: price
+      },
+      refetchQueries: [{query: getOrderOrderlines}]
+     })
+   }
+ }
   
 // all of this to handle changes in the add package form
   const handlePackageAddSubmit = event => {
@@ -301,6 +446,17 @@ const [pa, setPa] = useState({
     }
   
   };
+
+
+ // all of this to handle changes in the add meal form
+ const handleMealInputChange = event => {
+  event.persist();
+  
+  setMealInputs(mealInputs => ({
+    ...mealInputs,
+    [event.target.name]: event.target.value
+  }));
+}; 
   
 // all of this to handle changes in the add package form
   const handlePackageInputChange = event => {
@@ -351,7 +507,9 @@ const [pa, setPa] = useState({
   const planData = props.getPlanQuery;
   const packageData = props.getPackagesQuery;
   
-  const olData = props.getOrderOrderlines
+  const olData = props.getOrderOrderlines;
+  const mlData = props.getMealListQuery;
+  const mealData = props.getMealsQuery;
 
     //retreiving order data
     const data = props.getOrdersQuery;
@@ -568,16 +726,19 @@ const [pa, setPa] = useState({
                   </ModalBody>
                 </Modal>
 
-                <Container fluid>
+                <div class="btn-group" role="group" aria-label="Button group example">
                   <Button
-                          className="my-2"
+                          // className="form-group col-md-2"
                           color="primary"
                           onClick={toggle}
                         >
                           Edit Order
                   </Button>
-                  <Button onClick={packageToggle} className="form-control" color="primary" type="submit">Add Package</Button>
-                </Container>
+
+                  <Button onClick={packageToggle} 
+                  // className="form-group col-md-2" 
+                  color="dark" type="submit">Add Package To Order</Button>
+                </div>
 
                 <Modal isOpen={packageModal} toggle={packageToggle} >
                   <ModalHeader toggle={packageToggle}>Add Package</ModalHeader>
@@ -586,7 +747,7 @@ const [pa, setPa] = useState({
               
           
                           <FormGroup>
-                            <label for="cust">Package <i className="text-danger">*</i></label>
+                            <label for="package">Package <i className="text-danger">*</i></label>
                             <Select id="package" class="form-control"
                                 {...props}
                                 closeMenuOnSelect={true}
@@ -636,11 +797,218 @@ const [pa, setPa] = useState({
                     defaultFilterMethod={(filter, row) =>
                     String(row[filter.id]).indexOf(filter.value) > -1
                     }
+                    getTrProps={(state, rowInfo) => {
+                      if (rowInfo && rowInfo.row) {
+                          return {
+                          onClick: (e) => {
+                              handlePackageChange(rowInfo.row._original.package_id, rowInfo.row._original.package_name)
+                            
+                              setSelectedOl(rowInfo.index);
+                              setOlrow(rowInfo.row._original.order_line_id);
+                              setDue(rowInfo.row._original.order_due_date);
+                              setPrice(rowInfo.row._original.price);
+                              setQuant(rowInfo.row._original.order_line_quantity);
+                          },
+                          style: {
+                              background: rowInfo.index === selectedOl ? '#00afec' : 'white',
+                              color: rowInfo.index === selectedOl ? 'white' : 'black'
+                          }
+                          }
+                      }else{
+                          return {}
+                      }
+                      }}
                     
                     defaultPageSize={7}
                     style={{height: "400px"}}
                     className="-striped -highlight"
                   />
+
+                  <Modal isOpen={packageEditModal} toggle={packageEditditoggle} >
+                  <ModalHeader toggle={packageEditditoggle}>Edit Package</ModalHeader>
+                  <ModalBody>
+                      <Form onSubmit={handlePackageEditSubmit}>
+              
+          
+                          <FormGroup>
+                            <label for="package">Package <i className="text-danger">*</i></label>
+                            <Select id="package" class="form-control"
+                                {...props}
+                                closeMenuOnSelect={true}
+                                value={selectedPackage}
+                                hideSelectedOptions={false}
+                                backspaceRemovesValue={false}
+                                placeholder="Select.."
+                                required
+                                onChange = {event => {
+                                  
+                                  handlePackageChange(event.package_id, event.package_name)
+                                }}
+                                name="package"
+                                options={packageData.allPackage}
+                                getOptionLabel={(option) => option.package_name}
+                                getOptionValue={(option) => option.package_id}
+                                />
+             
+                              <Label> Price</Label>
+                              <Input
+                                name="price"
+                                className="form-control"
+                                onChange = {event => {
+                                  setPrice(event.target.value)
+                                }}
+                                required
+                                value={price}
+                              />
+                              <Label>Quantity</Label>
+                              <Input
+                                name="quant"
+                                className="form-control"
+                                onChange = {event => {
+                                  setQuant(event.target.value)
+                                }}
+                                required
+                                value = {quant}
+                              />
+                          </FormGroup>
+                          <Button type="submit" class="btn btn-primary">Save</Button>
+                          
+              
+                     </Form>
+          
+                    </ModalBody>
+                  </Modal>
+                  <div class="btn-group" role="group" aria-label="Button group example">
+                    <Button onClick={packageEditditoggle} className="my-2" color="primary" type="submit">Edit Order Package</Button>
+                    <Button onClick={mealToggle} className="my-2" color="dark" type="submit">Add Meal To Package</Button>
+                  </div>             
+                  <div></div>
+
+                <ReactTable 
+                  data={mlData.allMlJoin}
+                  columns={mlColumns}
+                  filterable={true}
+                    defaultFilterMethod={(filter, row) =>
+                    String(row[filter.id]).indexOf(filter.value) > -1
+                    }
+                    getTrProps={(state, rowInfo) => {
+                      if (rowInfo && rowInfo.row) {
+                          return {
+                          onClick: (e) => {
+                              handleMealChange(rowInfo.row._original.meal_id, rowInfo.row._original.meal_name)
+                              setSelectedMlRow(rowInfo.index);
+                              setMlquant(rowInfo.row._original.meal_list_quantity);
+                              setMlRow(rowInfo.row._original.meal_list_id)
+                          },
+                          style: {
+                              background: rowInfo.index === selectedMlRow ? '#00afec' : 'white',
+                              color: rowInfo.index === selectedMlRow ? 'white' : 'black'
+                          }
+                          }
+                      }else{
+                          return {}
+                      }
+                      }}
+                    
+                    defaultPageSize={7}
+                    style={{height: "400px"}}
+                    className="-striped -highlight"
+                  />
+
+                  <Modal isOpen={mealModal} toggle={mealToggle} >
+                    <ModalHeader toggle={mealToggle}>Add Meal</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={handleMealAddSubmit}>
+                
+            
+                            <FormGroup>
+                              <label for="meal">Meal <i className="text-danger">*</i></label>
+                              <Select id="meal" class="form-control"
+                                  {...props}
+                                  closeMenuOnSelect={true}
+                                  value={packageInputs.meal}
+                                  hideSelectedOptions={false}
+                                  backspaceRemovesValue={false}
+                                  placeholder="Select.."
+                                  required
+                                  onChange = {event => {
+                                    
+                                    meal_id = event.meal_id
+                                    console.log(meal_id)
+                                  }}
+                                  name="meal"
+                                  options={mealData.allMeal}
+                                  getOptionLabel={(option) => option.meal_name}
+                                  getOptionValue={(option) => option.meal_id}
+                                  />
+              
+                                <Label>Quantity</Label>
+                                <Input
+                                  name="mlquant"
+                                  className="form-control"
+                                  onChange = {handleMealInputChange}
+                                  required
+                                />
+                            </FormGroup>
+                            <Button type="submit" class="btn btn-primary">Save</Button>
+                            
+                
+                      </Form>
+            
+                    </ModalBody>
+                  </Modal>
+
+                  <Modal isOpen={mealEditModal} toggle={mealEditToggle} >
+                    <ModalHeader toggle={mealEditToggle}>Edit Meal</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={handleMealEditSubmit}>
+                
+            
+                            <FormGroup>
+                              <label for="meal">Meal <i className="text-danger">*</i></label>
+                              <Select id="meal" class="form-control"
+                                  {...props}
+                                  closeMenuOnSelect={true}
+                                  value={selectedMeal}
+                                  hideSelectedOptions={false}
+                                  backspaceRemovesValue={false}
+                                  placeholder="Select.."
+                                  required
+                                  onChange = {event => {
+                                    
+                                    handleMealChange(event.meal_id, event.meal_name)
+                                  }}
+                                  name="meal"
+                                  options={mealData.allMeal}
+                                  getOptionLabel={(option) => option.meal_name}
+                                  getOptionValue={(option) => option.meal_id}
+                                  />
+              
+                                <Label>Quantity</Label>
+                                <Input
+                                value={mlquant}
+                                  name="mlquant"
+                                  className="form-control"
+                                  onChange = {event => {
+                                    setMlquant(event.target.value)
+                                  }}
+                                  required
+                                />
+                            </FormGroup>
+                            <Button type="submit" class="btn btn-primary">Save</Button>
+                            
+                
+                      </Form>
+            
+                    </ModalBody>
+                  </Modal>
+                  <div class="btn-group" role="group" aria-label="Button group example">
+                    <Button onClick={mealEditToggle}  color="dark" type="submit">Edit Package Meal</Button>
+                  </div> 
+
+
+
+
             </div>  
 
             </div> 
@@ -669,5 +1037,10 @@ export default compose(
   graphql(getOrderOrderlines, { name: "getOrderOrderlines" }),
   graphql(AddOrderlineMutation, { name: "AddOrderlineMutation" }),
   graphql(getPackagesQuery, { name: "getPackagesQuery" }),
+  graphql(EditOrderlineMutation, { name: "EditOrderlineMutation" }),
+  graphql(getMealListQuery, { name: "getMealListQuery" }),
+  graphql(AddMealListMutation, { name: "AddMealListMutation" }),
+  graphql(getMealsQuery, { name: "getMealsQuery" }),
+  graphql(EditMealListMutation, { name: "EditMealListMutation" }),
 )(OrderList);
 
