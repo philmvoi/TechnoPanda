@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { graphql } from "react-apollo";
-import {getStatesQuery, getCustomersQuery, EditCustomerMutation} from "./queries";
+import {getStatesQuery, getCustomersQuery, EditCustomerMutation, DeleteCustomerMutation} from "./queries";
 import ReactTable from 'react-table';
 import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
 import Form from 'react-validation/build/form';
@@ -80,6 +80,8 @@ let _selected = {
   
 const CustomerList = props => {
 
+  const [active, setActive] = useState(true)
+
   const states = props.getStatesQuery;
 
   const [inputs, setInputs] = useState({});
@@ -143,15 +145,20 @@ const [ig, setIg] = useState({
   ig: []
 });
 
-  function changeSelected(e) {
-      setSelected(e)
-      
-  };
 
 
 
 
   const displayCustomers = () => {
+
+    const handleDelete = () => {
+      props.DeleteCustomerMutation({
+        variables: {
+          id: row
+        },
+        refetchQueries: [{query: getCustomersQuery}]
+      })
+    };
 
      const handleSubmit = event => {
        if (event) event.preventDefault();
@@ -202,7 +209,7 @@ const [ig, setIg] = useState({
                     return {
                     onClick: (e) => {
                        handleValueChange(rowInfo.row._original.state_id, rowInfo.row._original.state_name)
-                        changeSelected(rowInfo.index);
+                       setSelected(rowInfo.index);
                         setRow(rowInfo.row._original.customer_id);
                         setPhone(rowInfo.row._original.customer_phone_number);
                         setFname(rowInfo.row._original.customer_first_name);
@@ -215,6 +222,7 @@ const [ig, setIg] = useState({
                         setW(rowInfo.row._original.Weight);
                         setAllergies(rowInfo.row._original.Allergies);
                         setIg(rowInfo.row._original.Instagram);
+                        setActive(false);
                     },
                     style: {
                         background: rowInfo.index === selected ? '#00afec' : 'white',
@@ -324,14 +332,22 @@ const [ig, setIg] = useState({
 
                  <div class="btn-group" role="group" aria-label="Button group example">
                    <Button
+                           disabled={active} 
                            color="primary"
                            onClick={toggle}
                          >
                            Edit Customer
                    </Button>
-                 </div>
+                   <Button
+                           disabled={active} 
+                           color="danger"
+                           onClick={handleDelete}
+                         >
+                           Delete Customer
+                   </Button>
              </div>
 
+            </div>
             </div>
         )
       
@@ -350,6 +366,7 @@ export default compose(
   graphql(getStatesQuery, { name: "getStatesQuery" }),
   graphql(getCustomersQuery, { name: "getCustomersQuery" }),
   graphql(EditCustomerMutation, {name: "EditCustomerMutation"}),
+  graphql(DeleteCustomerMutation, {name: "DeleteCustomerMutation"}),
  
   
 )(CustomerList);

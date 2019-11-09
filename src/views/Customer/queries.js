@@ -105,5 +105,13 @@ mutation($id: Int!, $state: Int!, $status: Int!, $phone: String!, $fname: String
 }
 `;
 
+const DeleteCustomerMutation = gql`
+mutation($id: Int!) {
+  deleteCustomer(customer_id: $id){
+    customer_id
+  }
+}
 
-export {getStatesQuery, AddStateMutation, EditStateMutation, getStateById, getCustomersQuery, AddCustomerMutation, EditCustomerMutation};
+`;
+
+export {getStatesQuery, AddStateMutation, EditStateMutation, getStateById, getCustomersQuery, AddCustomerMutation, EditCustomerMutation, DeleteCustomerMutation};

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { graphql } from "react-apollo";
-import {getIngredientsQuery, EditIngredientMutation} from "./queries";
+import {getIngredientsQuery, EditIngredientMutation, DeleteIngredientMutation} from "./queries";
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
@@ -22,6 +22,8 @@ const columns = [
 
   
 const IngredientList = props => {
+
+  const [active, setActive] = useState(true)
   
   const [selected, setSelected] = useState({
       selected: [],
@@ -46,6 +48,15 @@ const IngredientList = props => {
 
 
   const displayIngredients = () => {
+
+    const handleDelete = () => {
+      props.DeleteIngredientMutation({
+        variables: {
+          id: id
+        },
+        refetchQueries: [{query: getIngredientsQuery}]
+      })
+    }
 
     const handleSubmit = event => {
       if (event) event.preventDefault();
@@ -77,6 +88,7 @@ const IngredientList = props => {
                         
                         setId(rowInfo.row._original.ingredient_id);
                         setName(rowInfo.row._original.ingredient_name)
+                        setActive(false)
                     },
                     style: {
                         background: rowInfo.index === selected ? '#00afec' : 'white',
@@ -124,8 +136,10 @@ const IngredientList = props => {
                 </Modal>
 
                 <div class="btn-group" role="group" aria-label="Button group example">
-                   <Button color="primary" onClick={toggle}> Edit Ingredient </Button>
+                   <Button disabled={active} color="primary" onClick={toggle}> Edit Ingredient </Button>
+                   <Button disabled={active} color="danger" onClick={handleDelete}>  Delete Ingredient </Button>
                  </div>
+
             </div>
 
             </div>
@@ -145,5 +159,6 @@ const IngredientList = props => {
 export default compose(
   graphql(getIngredientsQuery, { name: "getIngredientsQuery" }),
   graphql(EditIngredientMutation, { name: "EditIngredientMutation" }),
+  graphql(DeleteIngredientMutation, { name: "DeleteIngredientMutation" }),
 )(IngredientList);
 

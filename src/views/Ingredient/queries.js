@@ -29,5 +29,11 @@ mutation($status: Int!, $name: String!){
   }
 }
 `;
-
-export {getIngredientsQuery, EditIngredientMutation, AddIngredientMutation}
+const DeleteIngredientMutation =gql `
+mutation($id: Int!){
+  deleteIngredient(ingredient_id: $id){
+    ingredient_id
+  }
+}
+`
+export {getIngredientsQuery, EditIngredientMutation, AddIngredientMutation, DeleteIngredientMutation}

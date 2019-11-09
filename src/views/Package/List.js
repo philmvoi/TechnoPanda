@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { graphql } from "react-apollo";
-import {getPackagesQuery, EditPackageMutation} from "./queries";
+import {getPackagesQuery, EditPackageMutation, DeletePackageMutation} from "./queries";
 import ReactTable from 'react-table';
 import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
 import Form from 'react-validation/build/form';
@@ -29,6 +29,8 @@ const columns = [
 
   
 const PackageList = props => {
+
+  const [active, setActive] = useState(true)
   
   const [selected, setSelected] = useState({
       selected: [],
@@ -61,13 +63,21 @@ const [desc, setDesc] = useState({
 
   const displayPackages = () => {
 
+    const handleDelete = () => {
+      props.DeletePackageMutation({
+        variables: {
+          id: id
+        },
+        refetchQueries: [{query: getPackagesQuery}]
+      })
+    }
     const handleSubmit = event => {
       if (event) event.preventDefault();
       props.EditPackageMutation({
         variables: {
           id: id,
           name: name,
-          quant: quant,
+          quant: quant.toString(),
           desc: desc
         },
         refetchQueries: [{query: getPackagesQuery}]
@@ -94,6 +104,7 @@ const [desc, setDesc] = useState({
                         setName(rowInfo.row._original.package_name);
                         setQuant(rowInfo.row._original.meal_quantity)
                         setDesc(rowInfo.row._original.package_description)
+                        setActive(false);
                        
                     },
                     style: {
@@ -146,7 +157,8 @@ const [desc, setDesc] = useState({
                 </Modal> 
 
                  <div class="btn-group" role="group" aria-label="Button group example">
-                   <Button color="primary" onClick={toggle}> Edit Package </Button>
+                   <Button disabled={active} color="primary" onClick={toggle}> Edit Package </Button>
+                   <Button disabled={active} color="danger" onClick={handleDelete}> Delete Package </Button>
                  </div>
             </div>
 
@@ -167,6 +179,7 @@ const [desc, setDesc] = useState({
 export default compose(
   graphql(getPackagesQuery, { name: "getPackagesQuery" }),
   graphql(EditPackageMutation, { name: "EditPackageMutation" }),
+  graphql(DeletePackageMutation, { name: "DeletePackageMutation" }),
 
 )(PackageList);
 

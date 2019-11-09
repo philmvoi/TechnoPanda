@@ -36,5 +36,12 @@ mutation($id:Int!, $name: String!, $desc: String, $quant: String!) {
   }
 `;
 
-export {getPackagesQuery, AddPackageMutation, EditPackageMutation}
+const DeletePackageMutation = gql `
+mutation($id: Int!) {
+  deletePackage(package_id: $id){
+    package_id
+  }
+}
+`
+export {getPackagesQuery, AddPackageMutation, EditPackageMutation, DeletePackageMutation}
 
