@@ -20,10 +20,16 @@ export default {
       icon: 'icon-basket-loaded',
     },
     {
+      name: 'Meals',
+      url: '/meals',
+      icon: 'icon-book-open'
+    },
+    {
       name: 'Reports',
       url: '/reports',
       icon: 'icon-chart',
     },
+    
     {
       divider: true,
     },
