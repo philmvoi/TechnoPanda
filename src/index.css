@@ -13,3 +13,10 @@
     background-color: teal;
   }
   
+  #small {
+    width: 250px;
+  }
+
+  #medium {
+    width: 370px;
+  }

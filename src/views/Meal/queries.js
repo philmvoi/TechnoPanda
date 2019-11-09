@@ -64,5 +64,48 @@ mutation($id: Int!, $catg: Int!, $protein: Int!, $name: String!, $desc: String, 
 }
 
 `;
-export {getMealsQuery, getProteinQuery, getMealCategory, AddMealMutation, EditMealMutation};
+
+const getIngredientListQuery = gql`
+{
+  allIngList{
+    ingredient_id
+    ingredient_name
+    ingredient_list_id
+    meal_id
+    meal_name
+  }
+}
+
+`;
+const getIngredientsQuery = gql`
+{
+  allIngredientJoin {
+    ingredient_name
+    ingredient_id
+  }
+}
+
+`;
+
+const AddIngListMutation = gql `
+mutation($meal: Int!, $ing: Int!) {
+  createIngList(input: {
+    meal_id: $meal
+    ingredient_id: $ing
+  }) {
+    meal_id
+  }
+}
+`;
+
+const EditIngListMutation = gql `
+mutation($id:Int!, $ing: Int!) {
+  updateIngList(input: {
+    ingredient_id: $ing
+  }, ingredient_list_id: $id) {
+    meal_id
+  }
+}
+`;
+export {getMealsQuery, getProteinQuery, getMealCategory, AddMealMutation, EditMealMutation, getIngredientListQuery, getIngredientsQuery, AddIngListMutation, EditIngListMutation};
 

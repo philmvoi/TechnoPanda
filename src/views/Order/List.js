@@ -740,7 +740,7 @@ const handleMealEditSubmit = event => {
                   color="dark" type="submit">Add Package To Order</Button>
                 </div>
 
-                <Modal isOpen={packageModal} toggle={packageToggle} >
+                <Modal id="small"  isOpen={packageModal} toggle={packageToggle} >
                   <ModalHeader toggle={packageToggle}>Add Package</ModalHeader>
                   <ModalBody>
                       <Form onSubmit={handlePackageAddSubmit}>
@@ -824,7 +824,7 @@ const handleMealEditSubmit = event => {
                     className="-striped -highlight"
                   />
 
-                  <Modal isOpen={packageEditModal} toggle={packageEditditoggle} >
+                  <Modal id="small"  isOpen={packageEditModal} toggle={packageEditditoggle} >
                   <ModalHeader toggle={packageEditditoggle}>Edit Package</ModalHeader>
                   <ModalBody>
                       <Form onSubmit={handlePackageEditSubmit}>
@@ -915,7 +915,7 @@ const handleMealEditSubmit = event => {
                     className="-striped -highlight"
                   />
 
-                  <Modal isOpen={mealModal} toggle={mealToggle} >
+                  <Modal id="small"  isOpen={mealModal} toggle={mealToggle} >
                     <ModalHeader toggle={mealToggle}>Add Meal</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={handleMealAddSubmit}>
@@ -958,7 +958,7 @@ const handleMealEditSubmit = event => {
                     </ModalBody>
                   </Modal>
 
-                  <Modal isOpen={mealEditModal} toggle={mealEditToggle} >
+                  <Modal id="small"  isOpen={mealEditModal} toggle={mealEditToggle} >
                     <ModalHeader toggle={mealEditToggle}>Edit Meal</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={handleMealEditSubmit}>

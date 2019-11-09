@@ -88,7 +88,7 @@ const MealAdd = props => {
            <div class="form-row">
              <div  class="form-group col-md-4">
                <label for="name">Name <i className="text-danger">*</i></label>
-               <Input onChange = {handleInputChange} name="name" class="form-control" id="name" />
+               <Input required onChange = {handleInputChange} name="name" class="form-control" id="name" />
              </div>
              <div  class="form-group col-md-3">
                <label for="addoz">Add Protein</label>

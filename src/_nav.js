@@ -25,10 +25,21 @@ export default {
       icon: 'icon-book-open'
     },
     {
+      name: 'Packages',
+      url: '/packages',
+      icon: 'icon-social-dropbox ',
+    },
+    {
+      name: 'Ingredients',
+      url: '/ingredients',
+      icon: 'icon-list ',
+    },
+    {
       name: 'Reports',
       url: '/reports',
       icon: 'icon-chart',
     },
+    
     
     {
       divider: true,

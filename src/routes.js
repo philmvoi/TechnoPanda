@@ -29,7 +29,17 @@ const Meal = Loadable({
     loader: () => import('./views/Meal/Meal'),
     loading: Loading,
    });
-    
+
+const Package = Loadable({
+    loader: () => import('./views/Package/Package'),
+    loading: Loading,
+});  
+
+const Ingredient = Loadable({
+    loader: () => import('./views/Ingredient/Ingredient'),
+    loading: Loading,
+});  
+
  
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -38,6 +48,8 @@ const routes = [
  { path: '/orders', name: 'Orders', component: Order },
  { path: '/reports', exact:true, name: 'Reports', component: Report },
  { path: '/meals', exact:true, name: 'Meals', component: Meal },
+ { path: '/packages', exact:true, name: 'Packages', component: Package },
+ { path: '/ingredients', exact:true, name: 'Ingredients', component: Ingredient },
  
 ];
  
