@@ -74,6 +74,37 @@ const State = Loadable({
     loading: Loading,
 });
 
+const CustomerStatus = Loadable({
+    loader: () => import('./views/CustStat/CustomerStat'),
+    loading: Loading,
+});
+
+const OrderStatus = Loadable({
+    loader: () => import('./views/OrderStat/OrderStat'),
+    loading: Loading,
+});
+
+const Opm = Loadable({
+    loader: () => import('./views/Opm/Opm'),
+    loading: Loading,
+});
+
+const Ofm = Loadable({
+    loader: () => import('./views/Ofm/Ofm'),
+    loading: Loading,
+});
+
+const Plan = Loadable({
+    loader: () => import('./views/Plan/Plan'),
+    loading: Loading,
+});
+
+const MealStatus = Loadable({
+    loader: () => import('./views/MealStat/MealStat'),
+    loading: Loading,
+});
+
+
 
  
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -92,8 +123,13 @@ const routes = [
  { path: '/reports/loyalcusts', name: 'Loyal Customers', component: LoyalCustReport },
  { path: '/reports/popingrts', name: 'Popular Ingredients', component: PopIngredientsReport },
  { path: '/states', name: 'States', component: State },
+ { path: '/custstat', name: 'Customer Statuses', component: CustomerStatus },
+ { path: '/orderstat', name: 'Order Statuses', component: OrderStatus },
+ { path: '/opm', name: 'Payment Methods', component: Opm },
+ { path: '/ofm', name: 'Fulfillment Methods', component: Ofm },
+ { path: '/plan', name: 'Plans', component: Plan },
+ { path: '/mealstat', name: 'Meal Statuses', component: MealStatus },
 
- 
 ];
  
 export default routes;

@@ -61,21 +61,21 @@ const CustomerAdd = props => {
       <Form onSubmit={handleSubmit}>
            <div class="form-row">
              <div class="form-group col-md-6">
-               <label for="fname">First Name <i className="text-danger">required</i></label>
+               <label for="fname">First Name <i className="text-danger">*</i></label>
                <Input onChange = {handleInputChange} name='fname' class="form-control" placeholder="First Name" required/>
              </div>
              <div class="form-group col-md-6">
-               <label for="lname">Last Name <i className="text-danger">required</i></label>
+               <label for="lname">Last Name <i className="text-danger">*</i></label>
                <Input onChange = {handleInputChange} name="lname" class="form-control" id="lname" placeholder="Last Name" required/>
              </div>
            </div>
            <div class="form-row">
              <div class="form-group col-md-4">
-               <label for="phone">Phone <i className="text-danger">required</i></label>
+               <label for="phone">Phone <i className="text-danger">*</i></label>
                <Input required onChange = {handleInputChange} name="phone" class="form-control" id="phone" placeholder="999-990-0090"/>
              </div>
              <div class="form-group col-md-4">
-               <label for="email">Email <i className="text-danger">required</i></label>
+               <label for="email">Email <i className="text-danger">*</i></label>
                <Input onChange = {handleInputChange} name="email" class="form-control" id="email" placeholder="jane@yahoo.com"/>
              </div>
              <div class="form-group col-md-4">
@@ -94,7 +94,7 @@ const CustomerAdd = props => {
                <Input onChange = {handleInputChange} name="city" class="form-control" id="city"/>
              </div>
              <div class="form-group col-md-4">
-               <label for="state">State <i className="text-danger">required</i></label>
+               <label for="state">State <i className="text-danger">*</i></label>
                <Select id="inputState" class="form-control"
                   {...props}
                    closeMenuOnSelect={false}

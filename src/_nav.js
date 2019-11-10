@@ -49,7 +49,33 @@ export default {
       url: '/states',
     },
 
+    {
+      name: 'Customer Status',
+      url: '/custstat',
+    },
 
+    {
+      name: 'Order Status',
+      url: '/orderstat',
+    },
+    {
+      name: 'Payment Methods',
+      url: '/opm',
+    },
+    {
+      name: 'Fulfillement Methods',
+      url: '/ofm',
+    },
+    {
+      name: 'Plans',
+      url: '/plan',
+    },
+
+    {
+      name: 'Meal Status',
+      url: '/mealstat',
+    },
    ],
  };
+
  

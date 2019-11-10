@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { graphql } from "react-apollo";
-import {getStatesQuery, EditStateMutation, DeleteStateMutation} from "./queries";
+import {getOfmQuery, EditOfmMutation, DeleteOfmMutation} from "./queries";
 import ReactTable from 'react-table';
 import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
 import Form from 'react-validation/build/form';
@@ -11,16 +11,16 @@ import { compose } from "recompose";
 const columns = [
     {
       Header: "ID",
-      accessor: "state_id",
+      accessor: "order_fulfillment_method_id",
     },
     {
-      Header: "State Name",
-      accessor: "state_name"
+      Header: "Fulfillment Method",
+      accessor: "order_fulfillement_method"
     }
   ]
 
   
-const StateList = props => {
+const OfmList = props => {
 
   const [active, setActive] = useState(true)  
   
@@ -52,25 +52,25 @@ const StateList = props => {
   };
 
 
-  const displayStates = () => {
+  const displayOfm = () => {
 
     const handleDelete = () => {
-        props.DeleteStateMutation({
+        props.DeleteOfmMutation({
           variables: {
             id: row
           },
-          refetchQueries: [{query: getStatesQuery}]
+          refetchQueries: [{query: getOfmQuery}]
         })
       }
 
     const handleSubmit = event => {
       if (event) event.preventDefault();
-      props.EditStateMutation({
+      props.EditOfmMutation({
         variables: {
           id: row,
           name: name
         },
-        refetchQueries: [{query: getStatesQuery}]
+        refetchQueries: [{query: getOfmQuery}]
       });
     
     
@@ -81,22 +81,22 @@ const StateList = props => {
     };
   
 
-    const data = props.getStatesQuery;
+    const data = props.getOfmQuery;
     if (data.loading) {
-      return <div>Loading States...</div>;
+      return <div>Loading Fulfillment Method...</div>;
     } else {
         return (
           <div>
             <ReactTable
-                data={data.allStates}
+                data={data.allOfm}
                 getTrProps={(state, rowInfo, instance) => {
                 if (rowInfo && rowInfo.row) {
                     return {
                     onClick: (e) => {
                         changeSelected(rowInfo.index);
                         
-                        changeRow(rowInfo.row._original.state_id);
-                        changeName(rowInfo.row._original.state_name)
+                        changeRow(rowInfo.row._original.order_fulfillment_method_id);
+                        changeName(rowInfo.row._original.order_fulfillement_method)
                         console.log(name);
                         setActive(false)
                     },
@@ -122,13 +122,13 @@ const StateList = props => {
 
             <div>
                 <Modal id="small" isOpen={modal} toggle={toggle} >
-                  <ModalHeader toggle={toggle}>Edit State</ModalHeader>
+                  <ModalHeader toggle={toggle}>Edit Fulfillment Method</ModalHeader>
                   <ModalBody>
                       <Form onSubmit={handleSubmit}>
               
           
                           <FormGroup>
-                            <Label>State Name <i className="text-danger">*</i></Label>
+                            <Label> Fulfillment Method <i className="text-danger">*</i></Label>
                             <Input
                               value={name}
                               name="state_name"
@@ -146,8 +146,8 @@ const StateList = props => {
                 </Modal>
 
                 <div class="btn-group" role="group" aria-label="Button group example">
-                   <Button disabled={active} color="primary" onClick={toggle}> Edit State </Button>
-                   <Button disabled={active} color="danger" onClick={handleDelete}>  Delete State </Button>
+                   <Button disabled={active} color="primary" onClick={toggle}> Edit Fulfillment Method </Button>
+                   <Button disabled={active} color="danger" onClick={handleDelete}>  Delete Fulfillment Method </Button>
                  </div>
 
             </div>
@@ -160,15 +160,17 @@ const StateList = props => {
 
   return (
     <>
-      {displayStates()}
+      {displayOfm()}
       
     </>
   );
 };
 
 export default compose(
-  graphql(getStatesQuery, { name: "getStatesQuery" }),
-  graphql(EditStateMutation, { name: "EditStateMutation" }),
-  graphql(DeleteStateMutation, { name: "DeleteStateMutation" }),
-)(StateList);
+  graphql(getOfmQuery, { name: "getOfmQuery" }),
+  graphql(EditOfmMutation, { name: "EditOfmMutation" }),
+  graphql(DeleteOfmMutation, { name: "DeleteOfmMutation" }),
+)(OfmList);
+
+
 

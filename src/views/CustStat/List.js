@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { graphql } from "react-apollo";
-import {getStatesQuery, EditStateMutation, DeleteStateMutation} from "./queries";
+import {getCustStatQuery, EditCustStatMutation, DeleteCustStatMutation} from "./queries";
 import ReactTable from 'react-table';
 import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
 import Form from 'react-validation/build/form';
@@ -11,16 +11,16 @@ import { compose } from "recompose";
 const columns = [
     {
       Header: "ID",
-      accessor: "state_id",
+      accessor: "customer_status_id",
     },
     {
-      Header: "State Name",
-      accessor: "state_name"
+      Header: "Customer Status",
+      accessor: "customer_status"
     }
   ]
 
   
-const StateList = props => {
+const CustStatList = props => {
 
   const [active, setActive] = useState(true)  
   
@@ -52,25 +52,25 @@ const StateList = props => {
   };
 
 
-  const displayStates = () => {
+  const displayStatuses = () => {
 
     const handleDelete = () => {
-        props.DeleteStateMutation({
+        props.DeleteCustStatMutation({
           variables: {
             id: row
           },
-          refetchQueries: [{query: getStatesQuery}]
+          refetchQueries: [{query: getCustStatQuery}]
         })
       }
 
     const handleSubmit = event => {
       if (event) event.preventDefault();
-      props.EditStateMutation({
+      props.EditCustStatMutation({
         variables: {
           id: row,
           name: name
         },
-        refetchQueries: [{query: getStatesQuery}]
+        refetchQueries: [{query: getCustStatQuery}]
       });
     
     
@@ -81,22 +81,22 @@ const StateList = props => {
     };
   
 
-    const data = props.getStatesQuery;
+    const data = props.getCustStatQuery;
     if (data.loading) {
-      return <div>Loading States...</div>;
+      return <div>Loading Customer Statuses...</div>;
     } else {
         return (
           <div>
             <ReactTable
-                data={data.allStates}
+                data={data.allCustStat}
                 getTrProps={(state, rowInfo, instance) => {
                 if (rowInfo && rowInfo.row) {
                     return {
                     onClick: (e) => {
                         changeSelected(rowInfo.index);
                         
-                        changeRow(rowInfo.row._original.state_id);
-                        changeName(rowInfo.row._original.state_name)
+                        changeRow(rowInfo.row._original.customer_status_id);
+                        changeName(rowInfo.row._original.customer_status)
                         console.log(name);
                         setActive(false)
                     },
@@ -122,13 +122,13 @@ const StateList = props => {
 
             <div>
                 <Modal id="small" isOpen={modal} toggle={toggle} >
-                  <ModalHeader toggle={toggle}>Edit State</ModalHeader>
+                  <ModalHeader toggle={toggle}>Edit Customer Status</ModalHeader>
                   <ModalBody>
                       <Form onSubmit={handleSubmit}>
               
           
                           <FormGroup>
-                            <Label>State Name <i className="text-danger">*</i></Label>
+                            <Label> Customer Status <i className="text-danger">*</i></Label>
                             <Input
                               value={name}
                               name="state_name"
@@ -146,8 +146,8 @@ const StateList = props => {
                 </Modal>
 
                 <div class="btn-group" role="group" aria-label="Button group example">
-                   <Button disabled={active} color="primary" onClick={toggle}> Edit State </Button>
-                   <Button disabled={active} color="danger" onClick={handleDelete}>  Delete State </Button>
+                   <Button disabled={active} color="primary" onClick={toggle}> Edit Customer Status </Button>
+                   <Button disabled={active} color="danger" onClick={handleDelete}>  Delete Customer Status </Button>
                  </div>
 
             </div>
@@ -160,15 +160,15 @@ const StateList = props => {
 
   return (
     <>
-      {displayStates()}
+      {displayStatuses()}
       
     </>
   );
 };
 
 export default compose(
-  graphql(getStatesQuery, { name: "getStatesQuery" }),
-  graphql(EditStateMutation, { name: "EditStateMutation" }),
-  graphql(DeleteStateMutation, { name: "DeleteStateMutation" }),
-)(StateList);
+  graphql(getCustStatQuery, { name: "getCustStatQuery" }),
+  graphql(EditCustStatMutation, { name: "EditCustStatMutation" }),
+  graphql(DeleteCustStatMutation, { name: "DeleteCustStatMutation" }),
+)(CustStatList);
 

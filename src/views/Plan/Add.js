@@ -4,19 +4,19 @@ import HandleFormHook from "../Customer/handleFormHook";
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { FormGroup, Label, Button } from 'reactstrap';
-import {getStatesQuery, AddStateMutation} from "./queries";
+import {getPlanQuery, AddPlanMutation} from './queries';
 import { compose } from "recompose";
     
-const StateAdd = props => {
+const PlanAdd = props => {
   const getFormData = () => {
     console.log(`${inputs}`);
   
 
-  props.AddStateMutation({
+  props.AddPlanMutation({
     variables: {
       name: inputs.state_name
     },
-    refetchQueries: [{query: getStatesQuery}]
+    refetchQueries: [{query: getPlanQuery}]
   });
 };
 
@@ -29,7 +29,7 @@ const StateAdd = props => {
           
       
           <FormGroup>
-            <Label>State Name <i className="text-danger">*</i></Label>
+            <Label>Plan <i className="text-danger">*</i></Label>
             <Input
               value={inputs.state_name}
               name="state_name"
@@ -48,10 +48,7 @@ const StateAdd = props => {
 };
 
 export default compose(
-  graphql(getStatesQuery, { name: "getStatesQuery" }),
-  graphql(AddStateMutation, { name: "AddStateMutation" })
-)(StateAdd);
+  graphql(getPlanQuery, { name: "getPlanQuery" }),
+  graphql(AddPlanMutation, { name: "AddPlanMutation" })
+)(PlanAdd);
 
-
-  
-    
