@@ -10,7 +10,10 @@ import { compose, setPropTypes } from "recompose";
 import Select from 'react-select';
 import 'react-table/react-table.css';
 
-const ilcolumns = [
+const ilcolumns = [{
+  Header: "INGREDIENT-LIST",
+  columns: 
+  [
   {
     Header: "ID",
     accessor: "ingredient_list_id",
@@ -31,10 +34,14 @@ const ilcolumns = [
   {
     Header: "Meal",
     accessor: "meal_name",
-  },
+  }
+  ]}
 ];
 
-const columns = [
+const columns = [{
+  Header:"MEALS",
+  columns:
+  [
     {
       Header: "ID",
       accessor: "meal_id",
@@ -68,7 +75,7 @@ const columns = [
     {
       Header: "Additional Protein",
       accessor: "additional_protein_oz"
-    }
+    }]}
     
   ];
 //to hold ingredient ID

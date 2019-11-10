@@ -13,7 +13,9 @@ const getCustomersQuery = gql`
   {
     allCustomers {
       customer_id
-      customer_phone_number
+      customer_phone_number,
+      customer_last_name,
+      customer_first_name
     }
   }
 `;

@@ -9,7 +9,10 @@ import Input from 'react-validation/build/input';
 import { FormGroup, Label } from 'reactstrap';
 import { compose } from "recompose";
 
-const columns = [
+const columns = [{
+  Header: "INGREDIENTS",
+  columns:
+  [
     {
       Header: "ID",
       accessor: "ingredient_id",
@@ -18,6 +21,7 @@ const columns = [
       Header: "Name",
       accessor: "ingredient_name"
     }
+    ]}
   ]
 
   

@@ -11,10 +11,14 @@ import Select from 'react-select';
 import 'react-table/react-table.css';
 
 
-const columns = [
+const columns = [{
+  Header: "CUSTOMERS",
+  columns:
+  [
     {
       Header: "ID",
       accessor: "customer_id",
+      width: 90
     },
     {
       Header: "State ID",
@@ -27,7 +31,8 @@ const columns = [
     },
     {
       Header: "Phone",
-      accessor: "customer_phone_number"
+      accessor: "customer_phone_number",
+      width: 150
     },
     {
       Header: "First Name",
@@ -39,15 +44,18 @@ const columns = [
     },
     {
       Header: "Email",
-      accessor: "customer_email"
+      accessor: "customer_email",
+      width: 170
+
     },
     {
       Header: "City",
       accessor: "customer_city"
     },
     {
-      Header: "Street",
-      accessor: "customer_street_address"
+      Header: "Street Address",
+      accessor: "customer_street_address",
+      width: 200
     },
     {
       Header: "Zip",
@@ -59,7 +67,8 @@ const columns = [
     },
     {
       Header: "Weight",
-      accessor: "Weight"
+      accessor: "Weight",
+      Cell: row => <div style={{ textAlign: "right" }}>{row.value}</div>
     },
     {
       Header: "Allergies",
@@ -68,7 +77,7 @@ const columns = [
     {
       Header: "Instagram",
       accessor: "Instagram"
-    }
+    }]}
     
   ]
 

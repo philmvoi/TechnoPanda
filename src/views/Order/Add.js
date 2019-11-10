@@ -84,7 +84,7 @@ const OrderAdd = props => {
                    }}
                    name="cust"
                    options={customerData.allCustomers}
-                   getOptionLabel={(option) => option.customer_phone_number}
+                   getOptionLabel={(option) => `${option.customer_first_name}  ${option.customer_last_name} ${option.customer_phone_number} `}
                    getOptionValue={(option) => option.customer_id}
                    />
              

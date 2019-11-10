@@ -20,6 +20,10 @@ let meal_id = null;
 
 //columns for meallist table
 const mlColumns = [
+{
+  Header:"MEAL-LIST",
+  columns:
+  [
   {
     Header: "ID",
     accessor: "meal_list_id",
@@ -45,30 +49,36 @@ const mlColumns = [
   {
     Header: "Quantity",
     accessor: "meal_list_quantity",
-  }, 
+  }
+  ]}
 ]
 
 // columns for the orderline table
-const olColumns = [
+const olColumns = [{
+  Header:"ORDERLINES",
+  columns:
+  [
   {
     Header: "ID",
     accessor: "order_line_id",
-    width: 70,
-
+    width: 130,
 
   }, 
   {
     Header: "Order ID",
     accessor: "order_id",
+    width: 130
   },
   {
     Header: "Package ID",
     accessor: "package_id",
-    show: true
+    show: true,
+    width: 110
   },
   {
     Header: "Package Name",
     accessor: "package_name",
+    width: 170
   },
   {
     Header: "Package Desc",
@@ -77,19 +87,27 @@ const olColumns = [
   {
     Header: "Quantity",
     accessor: "order_line_quantity",
+    width: 110
   },
   {
     Header: "Price",
     accessor: "price",
-  },
+    width: 90,
+    Cell: row => <div style={{ textAlign: "right" }}>${row.value}</div>
+  }
+]}
+
 ];
 
 // columns for the order table
-const columns = [
+const columns = [{
+  Header: "ORDERS",
+  columns:
+  [
     {
       Header: "ID",
       accessor: "order_id",
-      className: "right"
+      width: 60
     },
     {
       Header: "Customer ID",
@@ -103,6 +121,7 @@ const columns = [
     {
       Header: "Phone",
       accessor: "customer_phone_number",
+      width: 130
     },
     {
       Header: "Order Status ID",
@@ -111,7 +130,7 @@ const columns = [
     },
     {
       Header: "Status",
-      accessor: "order_status_id",
+      accessor: "order_status",
     },
     {
       Header: "Pay Method ID",
@@ -129,7 +148,8 @@ const columns = [
     },
     {
       Header: "Delivery/Pick-up",
-      accessor: "order_fulfillement_method"
+      accessor: "order_fulfillement_method",
+      width: 130
     },
     {
       Header: "Plan Id",
@@ -150,7 +170,8 @@ const columns = [
     },
     {
       Header: "Delivery Street",
-      accessor: "order_delivery_street"
+      accessor: "order_delivery_street",
+      width: 270
     },
     {
       Header: "Delivery City",
@@ -170,16 +191,20 @@ const columns = [
     },
     {
       Header: "Total",
-      accessor: "order_total_price"
+      accessor: "order_total_price",
+      Cell: row => <div style={{ textAlign: "right" }}>${row.value}</div>
     },
     {
       Header: " Special Reqs",
-      accessor: "special_requirements"
+      accessor: "special_requirements",
+      width: 270
     },
     {
       Header: "Payment Amt",
-      accessor: "payment_amount"
+      accessor: "payment_amount",
+      Cell: row => <div style={{ textAlign: "right" }}>${row.value}</div>
     }
+    ]}
   ];
 
 // To hold the selected row customer information

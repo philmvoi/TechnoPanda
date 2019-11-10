@@ -38,7 +38,13 @@ const Package = Loadable({
 const Ingredient = Loadable({
     loader: () => import('./views/Ingredient/Ingredient'),
     loading: Loading,
-});  
+});
+const CurMonthRevReport = Loadable({
+    loader: () => import('./views/Report/curmonthrev'),
+    loading: Loading,
+});    
+
+
 
  
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -50,6 +56,7 @@ const routes = [
  { path: '/meals', exact:true, name: 'Meals', component: Meal },
  { path: '/packages', exact:true, name: 'Packages', component: Package },
  { path: '/ingredients', exact:true, name: 'Ingredients', component: Ingredient },
+ { path: '/reports/curmonthrev', exact:true, name: 'CurrentMonthRevenue', component: CurMonthRevReport },
  
 ];
  

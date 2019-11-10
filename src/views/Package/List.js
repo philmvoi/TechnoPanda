@@ -8,7 +8,10 @@ import Input from 'react-validation/build/input';
 import { FormGroup, Label } from 'reactstrap';
 import { compose } from "recompose";
 import 'react-table/react-table.css';
-const columns = [
+const columns = [{
+  Header: "PACKAGES",
+  columns:
+  [
     {
       Header: "ID",
       accessor: "package_id",
@@ -24,7 +27,8 @@ const columns = [
     {
       Header: "Quantity",
       accessor: "meal_quantity"
-      },
+      }]}
+
   ]
 
   
