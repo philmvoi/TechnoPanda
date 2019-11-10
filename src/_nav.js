@@ -44,6 +44,12 @@ export default {
     {
       divider: true,
     },
+    {
+      name: 'States',
+      url: '/states',
+    },
+
+
    ],
  };
  

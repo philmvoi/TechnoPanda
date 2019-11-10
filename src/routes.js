@@ -69,6 +69,10 @@ const PopIngredientsReport = Loadable({
     loading: Loading,
 });
 
+const State = Loadable({
+    loader: () => import('./views/State/State'),
+    loading: Loading,
+});
 
 
  
@@ -87,6 +91,7 @@ const routes = [
  { path: '/reports/poppkgs', name: 'Popular Packages', component: PopPkgReport },
  { path: '/reports/loyalcusts', name: 'Loyal Customers', component: LoyalCustReport },
  { path: '/reports/popingrts', name: 'Popular Ingredients', component: PopIngredientsReport },
+ { path: '/states', name: 'States', component: State },
 
  
 ];

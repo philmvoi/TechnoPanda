@@ -10,7 +10,7 @@ import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
 
 
 
-const Customer = () =>  { 
+const State = () =>  { 
   
   const [modal, setModal] = useState(false);
 
@@ -20,7 +20,16 @@ const Customer = () =>  {
     return (
       <div>  
          <div>
-         <Modal isOpen={modal} toggle={toggle} >
+     
+            <Button
+                    className="my-2"
+                    color="primary"
+                    onClick={toggle}
+                    >
+                    Add State
+            </Button>
+   
+         <Modal id="small" isOpen={modal} toggle={toggle} >
         <ModalHeader toggle={toggle}>Add State</ModalHeader>
           <ModalBody>
             <StateAdd />
@@ -29,16 +38,8 @@ const Customer = () =>  {
 
       </Modal>
          </div>
-        <CustomerList />
-        <Container fluid>
-      <Button
-              className="my-2"
-              color="primary"
-              onClick={toggle}
-            >
-              Add Customer
-      </Button>
-      </Container>
+        <StateList />
+
       </div>
     )
   
@@ -46,5 +47,5 @@ const Customer = () =>  {
 
 
     
-export default Customer
+export default State
    
