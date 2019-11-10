@@ -217,7 +217,33 @@ const getMealsQuery = gql `
   }
 }
 `
+const DeleteOrderMutation = gql `
+mutation($id: Int!) {
+  deleteOrder(order_id: $id){
+    order_id
+  }
+}
 
- 
+`;
 
-export {getOrdersQuery, AddOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, EditOrderMutation, getOrderOrderlines, AddOrderlineMutation, getPackagesQuery, EditOrderlineMutation, getMealListQuery, AddMealListMutation, getMealsQuery, EditMealListMutation};
+const DeleteOrderLineMutation = gql `
+mutation($id: Int!) {
+  deleteOrderLine(order_line_id: $id){
+    order_line_id
+  }
+}
+
+`;
+
+const DeleteMealListMutation = gql `
+mutation($id: Int!) {
+  deleteMealList(meal_list_id: $id){
+    meal_list_id
+  }
+}
+
+`;
+
+
+
+export {getOrdersQuery, AddOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, EditOrderMutation, getOrderOrderlines, AddOrderlineMutation, getPackagesQuery, EditOrderlineMutation, getMealListQuery, AddMealListMutation, getMealsQuery, EditMealListMutation, DeleteOrderMutation, DeleteOrderLineMutation, DeleteMealListMutation};

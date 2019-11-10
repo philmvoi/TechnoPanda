@@ -12,7 +12,7 @@ import { FormGroup, Label } from 'reactstrap';
 import { compose } from 'recompose';
 import Select from 'react-select';
 
-import { getOrderOrderlines, getOrdersQuery, EditOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, AddOrderlineMutation, getPackagesQuery, EditOrderlineMutation, getMealListQuery, AddMealListMutation, getMealsQuery, EditMealListMutation} from './queries';
+import { getOrderOrderlines, getOrdersQuery, EditOrderMutation, getOrderStatQuery, getCustomersQuery, getOfmQuery, getOpmQuery, getPlanQuery, AddOrderlineMutation, getPackagesQuery, EditOrderlineMutation, getMealListQuery, AddMealListMutation, getMealsQuery, EditMealListMutation, DeleteOrderMutation, DeleteOrderLineMutation, DeleteMealListMutation} from './queries';
 
 // for adding packages
 let package_id = null;
@@ -53,19 +53,22 @@ const olColumns = [
   {
     Header: "ID",
     accessor: "order_line_id",
+    width: 70,
+
+
   }, 
   {
     Header: "Order ID",
     accessor: "order_id",
   },
   {
-    Header: "Package Name",
-    accessor: "package_name",
-  },
-  {
     Header: "Package ID",
     accessor: "package_id",
-    show: false
+    show: true
+  },
+  {
+    Header: "Package Name",
+    accessor: "package_name",
   },
   {
     Header: "Package Desc",
@@ -86,6 +89,7 @@ const columns = [
     {
       Header: "ID",
       accessor: "order_id",
+      className: "right"
     },
     {
       Header: "Customer ID",
@@ -364,6 +368,11 @@ const [pa, setPa] = useState({
   pa: [],
 });
 
+//this is to hold and set the active order row
+const [activeOrder, setActiveOrder] = useState(true);
+const [activeOl, setActiveOl] = useState(true);
+const [activeMl, setActiveMl] = useState(true);
+
 
   function changeSelected(e) {
       setSelected(e)
@@ -428,6 +437,35 @@ const handleMealEditSubmit = event => {
      })
    }
  }
+  //handle order delete
+  const handleOrderDelete = () => {
+    props.DeleteOrderMutation ({
+      variables: {
+        id: row
+      },
+      refetchQueries: [{query: getOrdersQuery}]
+    })
+  }
+
+    //handle orderline delete
+    const handleOrderLineDelete = () => {
+      props.DeleteOrderLineMutation ({
+        variables: {
+          id: olRow
+        },
+        refetchQueries: [{query: getOrderOrderlines}]
+      })
+    }
+
+    //handle meal list delete
+    const handleMealListDelete = () => {
+      props.DeleteMealListMutation({
+        variables: {
+          id: mlRow
+        },
+        refetchQueries: [{query: getMealListQuery}]
+      })
+    }
   
 // all of this to handle changes in the add package form
   const handlePackageAddSubmit = event => {
@@ -542,6 +580,7 @@ const handleMealEditSubmit = event => {
                         setSpec(rowInfo.row._original.special_requirements);
                         setReceived(rowInfo.row._original.order_received_date);
                         setPa(rowInfo.row._original.payment_amount);
+                        setActiveOrder(false)
                         
 
                     },
@@ -566,7 +605,7 @@ const handleMealEditSubmit = event => {
             /> 
              <div> {/* modal and form to edit orders*/}
                 <Modal isOpen={modal} toggle={toggle} >
-                  <ModalHeader toggle={toggle}>Edit State</ModalHeader>
+                  <ModalHeader toggle={toggle}>Edit Order</ModalHeader>
                   <ModalBody>
                   <Form onSubmit={handleSubmit}>
                     <div class="form-row">
@@ -728,16 +767,17 @@ const handleMealEditSubmit = event => {
 
                 <div class="btn-group" role="group" aria-label="Button group example">
                   <Button
+                          disabled={activeOrder}
                           // className="form-group col-md-2"
                           color="primary"
                           onClick={toggle}
                         >
                           Edit Order
                   </Button>
-
+                   <Button onClick={handleOrderDelete} color="danger" >Delete Order</Button>                 
                   <Button onClick={packageToggle} 
                   // className="form-group col-md-2" 
-                  color="dark" type="submit">Add Package To Order</Button>
+                  color="dark" type="submit" disabled={activeOrder}>Add Package To Order</Button>
                 </div>
 
                 <Modal id="small"  isOpen={packageModal} toggle={packageToggle} >
@@ -808,6 +848,7 @@ const handleMealEditSubmit = event => {
                               setDue(rowInfo.row._original.order_due_date);
                               setPrice(rowInfo.row._original.price);
                               setQuant(rowInfo.row._original.order_line_quantity);
+                              setActiveOl(false)
                           },
                           style: {
                               background: rowInfo.index === selectedOl ? '#00afec' : 'white',
@@ -879,8 +920,9 @@ const handleMealEditSubmit = event => {
                     </ModalBody>
                   </Modal>
                   <div class="btn-group" role="group" aria-label="Button group example">
-                    <Button onClick={packageEditditoggle} className="my-2" color="primary" type="submit">Edit Order Package</Button>
-                    <Button onClick={mealToggle} className="my-2" color="dark" type="submit">Add Meal To Package</Button>
+                    <Button disabled={activeOl} onClick={packageEditditoggle} className="my-2" color="primary" type="submit">Edit Order Package</Button>
+                    <Button disabled={activeOl} onClick={handleOrderLineDelete} className="my-2" color="danger" type="submit">Delete Order Package</Button>
+                    <Button disabled={activeOl} onClick={mealToggle} className="my-2" color="dark" type="submit">Add Meal To Package</Button>
                   </div>             
                   <div></div>
 
@@ -899,6 +941,7 @@ const handleMealEditSubmit = event => {
                               setSelectedMlRow(rowInfo.index);
                               setMlquant(rowInfo.row._original.meal_list_quantity);
                               setMlRow(rowInfo.row._original.meal_list_id)
+                              setActiveMl(false)
                           },
                           style: {
                               background: rowInfo.index === selectedMlRow ? '#00afec' : 'white',
@@ -1003,7 +1046,8 @@ const handleMealEditSubmit = event => {
                     </ModalBody>
                   </Modal>
                   <div class="btn-group" role="group" aria-label="Button group example">
-                    <Button onClick={mealEditToggle}  color="dark" type="submit">Edit Package Meal</Button>
+                    <Button  disabled={activeMl} onClick={handleMealListDelete}  color="danger" type="submit">Delete Package Meal</Button>
+                    <Button disabled={activeMl} onClick={mealEditToggle}  color="dark" type="submit">Edit Package Meal</Button>
                   </div> 
 
 
@@ -1042,5 +1086,8 @@ export default compose(
   graphql(AddMealListMutation, { name: "AddMealListMutation" }),
   graphql(getMealsQuery, { name: "getMealsQuery" }),
   graphql(EditMealListMutation, { name: "EditMealListMutation" }),
+  graphql(DeleteOrderMutation, { name: "DeleteOrderMutation" }),
+  graphql(DeleteOrderLineMutation, { name: "DeleteOrderLineMutation" }),
+  graphql(DeleteMealListMutation, { name: "DeleteMealListMutation" }),
 )(OrderList);
 

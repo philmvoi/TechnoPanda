@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { graphql } from "react-apollo";
-import {getMealsQuery, EditMealMutation, getProteinQuery, getMealCategory, getIngredientListQuery, getIngredientsQuery, AddIngListMutation, EditIngListMutation} from "./queries";
+import {getMealsQuery, EditMealMutation, getProteinQuery, getMealCategory, getIngredientListQuery, getIngredientsQuery, AddIngListMutation, EditIngListMutation, DeleteMealMutation, DeleteIngListMutation} from "./queries";
 import ReactTable from 'react-table';
 import { Button, Modal, ModalHeader, ModalBody, Container} from 'reactstrap';
 import Form from 'react-validation/build/form';
@@ -100,6 +100,11 @@ let selectedIng = {
       il: []
     });
 
+    const [activeMeal, setActiveMeal] = useState(true)
+
+
+    const [activeIngList, setActiveIngList] = useState(true)
+
     const [selectedIlrow, setSelctedIlRow] = useState({
       selectedIlrow: []
     });
@@ -160,6 +165,25 @@ let selectedIng = {
            })
         }
       };
+
+      const handleMealDelete = () => {
+        props.DeleteMealMutation({
+          variables: {
+            id: meal
+          },
+          refetchQueries: [{query: getMealsQuery}]
+        })
+      }
+
+      const handleIngListDelete = () => {
+        props.DeleteIngListMutation({
+          variables:{
+            id: il
+          },
+          refetchQueries: [{query: getIngredientListQuery}]
+
+        })
+      }
 
       // to handle submission of the ingredient add form
       const handleIngredientEditSubmit = event => {
@@ -245,6 +269,7 @@ let selectedIng = {
                         setName(rowInfo.row._original.meal_name);
                         setDesc(rowInfo.row._original.meal_description);
                         setAddprot(rowInfo.row._original.additional_protein_oz);
+                        setActiveMeal(false)
                      
                     },
                     style: {
@@ -343,12 +368,14 @@ let selectedIng = {
 
                 <div class="btn-group" role="group" aria-label="Button group example">
                    <Button
+                          disabled={activeMeal}
                            color="primary"
                            onClick={toggle}
                          >
                            Edit Meal
                    </Button>
-                   <Button color="dark" onClick={ilAddToggle}> Add Ingredient To Meal </Button>
+                   <Button disabled={activeMeal} color="danger" onClick={handleMealDelete}> Delete Meal </Button>
+                   <Button disabled={activeMeal} color="dark" onClick={ilAddToggle}> Add Ingredient To Meal </Button>
                  </div>
             </div> 
             <ReactTable
@@ -361,6 +388,7 @@ let selectedIng = {
                         setSelctedIlRow(rowInfo.index);
                         handleIngredientChange(rowInfo.row._original.ingredient_id, rowInfo.row._original.ingredient_name);
                         setSelectedEditMeal(rowInfo.row._original.meal_name)
+                        setActiveIngList(false)
                     },
                     style: {
                         background: rowInfo.index === selectedIlrow ? '#00afec' : 'white',
@@ -467,7 +495,8 @@ let selectedIng = {
                   </ModalBody>
                 </Modal>
                 <div class="btn-group" role="group" aria-label="Button group example">
-                   <Button color="dark" onClick={ilEditToggle}> Edit Ingredient List </Button>
+                   <Button disabled={activeIngList} color="dark" onClick={ilEditToggle}> Edit Ingredient List </Button>
+                   <Button disabled={activeIngList} color="danger" onClick={handleIngListDelete}> Delete Ingredient List </Button>
                  </div>
       
             </div>
@@ -494,7 +523,8 @@ let selectedIng = {
     graphql(getIngredientsQuery, { name: "getIngredientsQuery" }),
     graphql(AddIngListMutation, { name: "AddIngListMutation" }),
     graphql(EditIngListMutation, { name: "EditIngListMutation" }),
-
+    graphql(DeleteMealMutation, { name: "DeleteMealMutation" }),
+    graphql(DeleteIngListMutation, { name: "DeleteIngListMutation" }),
   )(MealsList);
 
   

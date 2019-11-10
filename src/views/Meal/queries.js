@@ -107,5 +107,25 @@ mutation($id:Int!, $ing: Int!) {
   }
 }
 `;
-export {getMealsQuery, getProteinQuery, getMealCategory, AddMealMutation, EditMealMutation, getIngredientListQuery, getIngredientsQuery, AddIngListMutation, EditIngListMutation};
+const DeleteMealMutation = gql `
+mutation($id: Int!) {
+  deleteMeal(meal_id: $id){
+    meal_id
+  }
+}
+
+`;
+
+const DeleteIngListMutation = gql `
+mutation($id: Int!) {
+  deleteIngList(ingredient_list_id: $id){
+    ingredient_list_id
+  }
+}
+
+`;
+
+
+
+export {getMealsQuery, getProteinQuery, getMealCategory, AddMealMutation, EditMealMutation, getIngredientListQuery, getIngredientsQuery, AddIngListMutation, EditIngListMutation, DeleteMealMutation, DeleteIngListMutation} ;
 
