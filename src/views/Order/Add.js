@@ -180,13 +180,13 @@ const OrderAdd = props => {
 
              <div class="form-group col-md-4">
                <label for="received">Received <i className="text-danger">*</i></label>
-               <Input onChange = {handleInputChange} name="received" class="form-control" id="received" placeholder="2019-05-23"/>
+               <Input required onChange = {handleInputChange} name="received" class="form-control" id="received" placeholder="2019-05-23"/>
              </div>
            </div>
            <div class="form-row">
              <div class="form-group col-md-4">
                <label for="due">Due <i className="text-danger">*</i></label>
-               <Input onChange = {handleInputChange} name="due" class="form-control" id="received" placeholder="2019-05-23"/>
+               <Input required onChange = {handleInputChange} name="due" class="form-control" id="received" placeholder="2019-05-23"/>
              </div>
              <div class="form-group col-md-4">
                <label for="city">Delivery city</label>

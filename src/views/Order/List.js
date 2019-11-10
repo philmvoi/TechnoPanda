@@ -30,6 +30,11 @@ const mlColumns = [
     show: true
   }, 
   {
+    Header: "Order ID",
+    accessor: "order_id",
+    show: true
+  }, 
+  {
     Header: "Meal ID",
     accessor: "meal_id",
     show: false
@@ -41,6 +46,7 @@ const mlColumns = [
   {
     Header: "Package ID",
     accessor: "package_id",
+    show: false
   }, 
   {
     Header: "Package",
@@ -424,7 +430,7 @@ const handleMealAddSubmit = event => {
     props.AddMealListMutation ({
       variables: {
         meal: meal_id,
-        package: selectedPackage.package_id,
+        oline: olRow,
         quant: mealInputs.mlquant
       },
       refetchQueries: [{query: getMealListQuery}]
@@ -1010,7 +1016,7 @@ const handleMealEditSubmit = event => {
                                   getOptionValue={(option) => option.meal_id}
                                   />
               
-                                <Label>Quantity</Label>
+                                <Label>Quantity <i className="text-danger">*</i></Label>
                                 <Input
                                   name="mlquant"
                                   className="form-control"
@@ -1052,7 +1058,7 @@ const handleMealEditSubmit = event => {
                                   getOptionValue={(option) => option.meal_id}
                                   />
               
-                                <Label>Quantity</Label>
+                                <Label>Quantity <i className="text-danger">*</i></Label>
                                 <Input
                                 value={mlquant}
                                   name="mlquant"

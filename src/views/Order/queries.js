@@ -179,20 +179,22 @@ const getMealListQuery = gql `
     allMlJoin{
       meal_list_id,
       meal_id,
+      order_id
+      order_line_id
       meal_name
-      package_id
       package_name
       meal_list_quantity
+      package_id
     }
   
 }
 `;
 
 const AddMealListMutation = gql`
-  mutation($meal: Int!, $package: Int!, $quant: String!) {
+  mutation($meal: Int!, $oline: Int!, $quant: String!) {
       createMealList(input:{  
         meal_id: $meal,
-        package_id: $package,
+        order_line_id: $oline,
         meal_list_quantity: $quant,
     }) {
       meal_id

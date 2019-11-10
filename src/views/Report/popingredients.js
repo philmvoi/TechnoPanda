@@ -3,25 +3,15 @@ import { graphql } from "react-apollo";
 import ReactTable from 'react-table';
 import { compose } from "recompose";
 import 'react-table/react-table.css';
-import {getLoyCustomer} from './queries'
+import {getPopIngredients} from './queries'
 
 const columns = [{
-  Header: "LOYAL CUSTOMERS",
+  Header: "INGREDIENT FREQUENCY",
   columns:
   [
     {
-      Header: "ID",
-      accessor: "customer_id",
-      Cell: row => <div style={{ textAlign: "center" }}>{row.value}</div>
-    },
-    {
-      Header: "First Name",
-      accessor: "customer_first_name",
-      Cell: row => <div style={{ textAlign: "center" }}>{row.value}</div>
-    },
-    {
-      Header: "Last Name",
-      accessor: "customer_last_name",
+      Header: "Ingredient",
+      accessor: "ingredient_name",
       Cell: row => <div style={{ textAlign: "center" }}>{row.value}</div>
     },
     {
@@ -32,20 +22,19 @@ const columns = [{
     ]}
   ];
 
+const PopIngredientsReport = props => {
 
-const LoyalCustReport = props => {
+  const displayPopIngredients = () => {
 
-  const displayCustomer = () => {
-
-    const data = props.getLoyCustomer;
+    const data = props.getPopIngredients;
     if (data.loading) {
-      return <div>Loading Loyal Customers...</div>;
+      return <div>Loading Popular Ingredients...</div>;
     } else {
         return (
           <div>
           <div>
             <ReactTable
-                data={data.loyalCustomer}
+                data={data.popularIngredients}
                 // filterable={true}
               //   defaultFilterMethod={(filter, row) =>
               //   String(row[filter.id]).indexOf(filter.value) > -1
@@ -66,7 +55,7 @@ const LoyalCustReport = props => {
 
     return (
         <>
-         {displayCustomer()}
+         {displayPopIngredients()}
           
         </>
       );
@@ -74,5 +63,5 @@ const LoyalCustReport = props => {
 }
 
 export default compose(
-    graphql(getLoyCustomer, { name: "getLoyCustomer" }),  
-  )(LoyalCustReport);
+    graphql(getPopIngredients, { name: "getPopIngredients" }),  
+  )(PopIngredientsReport);
