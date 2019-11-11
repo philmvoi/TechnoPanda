@@ -84,7 +84,7 @@ const OrderAdd = props => {
                    }}
                    name="cust"
                    options={customerData.allCustomers}
-                   getOptionLabel={(option) => `${option.customer_first_name}  ${option.customer_last_name} ${option.customer_phone_number} `}
+                   getOptionLabel={(option) => `${option.customer_first_name} ${option.customer_last_name}, ${option.customer_phone_number} `}
                    getOptionValue={(option) => option.customer_id}
                    />
              
@@ -115,7 +115,7 @@ const OrderAdd = props => {
                <label for="opm">Payment Method<i className="text-danger">*</i></label>
                <Select id="opm" class="form-control"
                    {...props}
-                   closeMenuOnSelect={false}
+                   closeMenuOnSelect={true}
                    
                    value={inputs.opm}
                    hideSelectedOptions={false}
@@ -138,7 +138,7 @@ const OrderAdd = props => {
                 <label for="ofm">Delivery/Pick-up <i className="text-danger">*</i></label>
                   <Select id="ofm" class="form-control"
                        {...props}
-                      closeMenuOnSelect={false}
+                      closeMenuOnSelect={true}
                       
                       value={inputs.ofm}
                       hideSelectedOptions={false}
@@ -159,7 +159,7 @@ const OrderAdd = props => {
              <div class="form-group col-md-4">
                 <label for="plan">Plan <i className="text-danger">*</i></label>
                       <Select id="plan" class="form-control"
-                          closeMenuOnSelect={false}
+                          closeMenuOnSelect={true}
                           
                           value={inputs.plan}
                           hideSelectedOptions={false}
@@ -180,21 +180,21 @@ const OrderAdd = props => {
 
              <div class="form-group col-md-4">
                <label for="received">Received <i className="text-danger">*</i></label>
-               <Input required onChange = {handleInputChange} name="received" class="form-control" id="received" placeholder="2019-05-23"/>
+               <Input required onChange = {handleInputChange} name="received" class="form-control" id="received" placeholder="YYYY-MM-DD"/>
              </div>
            </div>
            <div class="form-row">
              <div class="form-group col-md-4">
                <label for="due">Due <i className="text-danger">*</i></label>
-               <Input required onChange = {handleInputChange} name="due" class="form-control" id="received" placeholder="2019-05-23"/>
+               <Input required onChange = {handleInputChange} name="due" class="form-control" id="received" placeholder="YYYY-MM-DD"/>
              </div>
              <div class="form-group col-md-4">
                <label for="city">Delivery city</label>
-               <Input onChange = {handleInputChange} name="city" class="form-control" id="city" placeholder="Houston"/>
+               <Input onChange = {handleInputChange} name="city" class="form-control" id="city" />
              </div>
              <div class="form-group col-md-4">
                <label for="zip">Zip code</label>
-               <Input onChange = {handleInputChange} name="zip" class="form-control" id="zip" placeholder="77898"/>
+               <Input onChange = {handleInputChange} name="zip" class="form-control" id="zip" />
              </div>
            </div>
            
@@ -205,7 +205,7 @@ const OrderAdd = props => {
            <div class="form-row">
            <div class="form-group col-md-3">
              <label for="completed">Completed Date</label>
-             <Input onChange = {handleInputChange} name="completed" class="form-control" id="completed" placeholder="2019-08-16"/>
+             <Input onChange = {handleInputChange} name="completed" class="form-control" id="completed" placeholder="YYYY-MM-DD"/>
            </div>
              <div class="form-group col-md-3">
              <label for="delBy">Delivery By</label>
@@ -217,7 +217,7 @@ const OrderAdd = props => {
              </div>
              <div class="form-group col-md-2">
              <label for="completed">Payment</label>
-             <Input onChange = {handleInputChange} name="pa" class="form-control" id="pa" placeholder="45"/>
+             <Input onChange = {handleInputChange} name="pa" class="form-control" id="pa" />
            </div>
            </div>
            <div class="form-row">

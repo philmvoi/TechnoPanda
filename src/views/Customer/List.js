@@ -334,7 +334,7 @@ const [ig, setIg] = useState({
                           <label for="allergies">Allergies</label>
                           <textarea value={allergies} onChange = {event => setAllergies(event.target.value)} name="allergies"class="form-control" id="allergies" rows="3"></textarea>
                         </div>
-                      <Button type="submit" class="btn btn-primary">Save</Button>
+                      <Button onClick={toggle} type="submit" class="btn btn-primary">Save</Button>
                   </Form>
                    </ModalBody>
                  </Modal>

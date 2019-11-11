@@ -104,6 +104,25 @@ const MealStatus = Loadable({
     loading: Loading,
 });
 
+const PackStatus = Loadable({
+    loader: () => import('./views/PackStat/PackStat'),
+    loading: Loading,
+});
+
+const IngStatus = Loadable({
+    loader: () => import('./views/IngStat/IngStat'),
+    loading: Loading,
+});
+
+const Protein = Loadable({
+    loader: () => import('./views/Protein/Protein'),
+    loading: Loading,
+});
+
+const Category = Loadable({
+    loader: () => import('./views/Category/Category'),
+    loading: Loading,
+});
 
 
  
@@ -128,7 +147,11 @@ const routes = [
  { path: '/opm', name: 'Payment Methods', component: Opm },
  { path: '/ofm', name: 'Fulfillment Methods', component: Ofm },
  { path: '/plan', name: 'Plans', component: Plan },
+ { path: '/protein', name: 'Proteins', component: Protein },
  { path: '/mealstat', name: 'Meal Statuses', component: MealStatus },
+ { path: '/packstat', name: 'Package Statuses', component: PackStatus },
+ { path: '/ingstat', name: 'Ingredient Statuses', component: IngStatus },
+ { path: '/category', name: 'Meal Categories', component: Category },
 
 ];
  

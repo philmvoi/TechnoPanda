@@ -13,7 +13,7 @@ const getCurMonRev = gql`
 const getPrevMonRev = gql`
 {
     revenueLastMonth{
-        Year
+        Prev_Year
         Previous_Month
         Total_Revenue_in_Previous_Month
     }

@@ -52,6 +52,7 @@ const getOrdersQuery = gql`
     allOrders{
       order_id
       customer_id
+      customer_first_name
       customer_last_name
       customer_phone_number
       order_status_id
@@ -72,12 +73,13 @@ const getOrdersQuery = gql`
       order_total_price
       special_requirements
       payment_amount
+      ol_price
     }
   }
 `;
 
 const AddOrderMutation = gql`
-  mutation($cust: Int!, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String!, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String!) {
+  mutation($cust: Int!, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String!, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String) {
     createOrder(input:{
         customer_id: $cust,
         order_status_id: $status,
@@ -102,7 +104,7 @@ const AddOrderMutation = gql`
 `;
 
 const EditOrderMutation = gql`
-  mutation($id: Int!, $cust: Int, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String!, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String!) {
+  mutation($id: Int!, $cust: Int, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String!, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String) {
     updateOrder(input:{
         customer_id: $cust,
         order_status_id: $status,

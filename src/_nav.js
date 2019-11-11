@@ -70,12 +70,31 @@ export default {
       name: 'Plans',
       url: '/plan',
     },
+    
+    {
+      name: 'Proteins',
+      url: '/protein',
+    },
+
+    {
+      name: 'Meal Categories',
+      url: '/category',
+    },
 
     {
       name: 'Meal Status',
       url: '/mealstat',
     },
+    {
+      name: 'Package Status',
+      url: '/packstat',
+    },
+    {
+      name: 'Ingredient Status',
+      url: '/ingstat',
+    },
    ],
  };
 
  
+

@@ -121,6 +121,10 @@ const columns = [{
       show: false
     },
     {
+      Header: "First Name",
+      accessor: "customer_first_name",
+    },
+    {
       Header: "Last Name",
       accessor: "customer_last_name",
     },
@@ -201,6 +205,11 @@ const columns = [{
       Cell: row => <div style={{ textAlign: "right" }}>${row.value}</div>
     },
     {
+      Header: "Order Line Total",
+      accessor: "ol_price",
+      Cell: row => <div style={{ textAlign: "right" }}>${row.value}</div>
+    },
+    {
       Header: " Special Reqs",
       accessor: "special_requirements",
       width: 270
@@ -240,12 +249,16 @@ const handlePackageChange =(e, j) => {
 // To hold the selected row customer information
   let selectedCustomer = {
     customer_id: '',
-    customer_phone_number: ''
+    customer_phone_number: '',
+    customer_first_name: '',
+    customer_last_name: ''
   };
 
-  const handleCustomerChange =(e, j) => {
+  const handleCustomerChange =(e, j, h, i) => {
     selectedCustomer.customer_id = e
     selectedCustomer.customer_phone_number = j
+    selectedCustomer.customer_first_name = h
+    selectedCustomer.customer_last_name = i
   };
 // To hold the selected row status information
   let selectedOrderStat = {
@@ -594,7 +607,7 @@ const handleMealEditSubmit = event => {
                     return {
                     onClick: (e) => {
                         
-                        handleCustomerChange(rowInfo.row._original.customer_id, rowInfo.row._original.customer_phone_number)
+                        handleCustomerChange(rowInfo.row._original.customer_id, rowInfo.row._original.customer_phone_number, rowInfo.row._original.customer_first_name, rowInfo.row._original.customer_last_name)
                         handleOrderStatChange(rowInfo.row._original.order_status_id, rowInfo.row._original.order_status)
                         handleOpmChange(rowInfo.row._original.order_payment_method_id, rowInfo.row._original.order_payment_method)
                         handleOfmChange(rowInfo.row._original.order_fulfillment_method_id, rowInfo.row._original.order_fulfillement_method)
@@ -651,11 +664,11 @@ const handleMealEditSubmit = event => {
                             placeholder="Select.."
                             required
                             onChange = {event => {
-                              handleCustomerChange(event.customer_id, event.customer_phone_number)
+                              handleCustomerChange(event.customer_id, event.customer_phone_number, event.customer_first_name, event.customer_last_name)
                             }}
                             name="cust"
                             options={customerData.allCustomers}
-                            getOptionLabel={(option) => option.customer_phone_number}
+                            getOptionLabel={(option) =>  `${option.customer_first_name} ${option.customer_last_name}, ${option.customer_phone_number} `}
                             getOptionValue={(option) => option.customer_id}
                             />
                       
@@ -684,7 +697,7 @@ const handleMealEditSubmit = event => {
                         <label for="opm">Payment Method<i className="text-danger">*</i></label>
                         <Select id="opm" class="form-control"
                             {...props}
-                            closeMenuOnSelect={false}
+                            closeMenuOnSelect={true}
                             
                             value={selectedOpm}
                             hideSelectedOptions={false}
@@ -705,7 +718,7 @@ const handleMealEditSubmit = event => {
                           <label for="ofm">Delivery/Pick-up <i className="text-danger">*</i></label>
                             <Select id="ofm" class="form-control"
                                 {...props}
-                                closeMenuOnSelect={false}
+                                closeMenuOnSelect={true}
                                 
                                 value={selectedOfm}
                                 hideSelectedOptions={false}
@@ -724,7 +737,7 @@ const handleMealEditSubmit = event => {
                       <div class="form-group col-md-4">
                           <label for="plan">Plan <i className="text-danger">*</i></label>
                                 <Select id="plan" class="form-control"
-                                    closeMenuOnSelect={false}
+                                    closeMenuOnSelect={true}
                                     
                                     value={selectedPlan}
                                     hideSelectedOptions={false}
@@ -743,21 +756,21 @@ const handleMealEditSubmit = event => {
 
                       <div class="form-group col-md-4">
                         <label for="received">Received <i className="text-danger">*</i></label>
-                        <Input value= {received} onChange = {event => setReceived(event.target.value)} name="received" class="form-control" id="received" placeholder="2019-05-23"/>
+                        <Input required value= {received} onChange = {event => setReceived(event.target.value)} name="received" class="form-control" id="received" placeholder="YYYY-MM-DD"/>
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group col-md-4">
                         <label for="due">Due <i className="text-danger">*</i></label>
-                        <Input value={due} onChange = {event => setDue(event.target.value)} name="due" class="form-control" id="due" placeholder="2019-05-23"/>
+                        <Input required value={due} onChange = {event => setDue(event.target.value)} name="due" class="form-control" id="due" placeholder="YYYY-MM-DD"/>
                       </div>
                       <div class="form-group col-md-4">
                         <label for="city">Delivery city</label>
-                        <Input value={city} onChange = {event => setCity(event.target.value)} name="city" class="form-control" id="city" placeholder="Houston"/>
+                        <Input value={city} onChange = {event => setCity(event.target.value)} name="city" class="form-control" id="city" />
                       </div>
                       <div class="form-group col-md-4">
                         <label for="zip">Zip code</label>
-                        <Input value={zip} onChange = {event => setZip(event.target.value)} name="zip" class="form-control" id="zip" placeholder="77898"/>
+                        <Input value={zip} onChange = {event => setZip(event.target.value)} name="zip" class="form-control" id="zip" />
                       </div>
                     </div>
                     
@@ -768,7 +781,7 @@ const handleMealEditSubmit = event => {
                     <div class="form-row">
                     <div class="form-group col-md-3">
                       <label for="completed">Completed Date</label>
-                      <Input value={completed} onChange = {event => setCompleted(event.target.value)} name="completed" class="form-control" id="completed" placeholder="2019-08-16"/>
+                      <Input value={completed} onChange = {event => setCompleted(event.target.value)} name="completed" class="form-control" id="completed" placeholder="YYYY-MM-DD"/>
                     </div>
                       <div class="form-group col-md-3">
                       <label for="delBy">Delivery By</label>
@@ -780,7 +793,7 @@ const handleMealEditSubmit = event => {
                       </div>
                       <div class="form-group col-md-2">
                       <label for="pa">Payment</label>
-                      <Input value={pa} onChange = {event => setPa(event.target.value)} name="pa" class="form-control" id="pa" placeholder="45"/>
+                      <Input value={pa} onChange = {event => setPa(event.target.value)} name="pa" class="form-control" id="pa" />
                     </div>
                     </div>
                     <div class="form-row">
@@ -790,7 +803,7 @@ const handleMealEditSubmit = event => {
                         <textarea value={spec} onChange = {event => setSpec(event.target.value)} name="spec"class="form-control" id="spec" rows="4"></textarea>
                   </div>
            
-            <Button type="submit" class="btn btn-primary">Save</Button>
+            <Button onClick={toggle} type="submit" class="btn btn-primary">Save</Button>
         </Form>
           
                   </ModalBody>
@@ -853,7 +866,7 @@ const handleMealEditSubmit = event => {
                                 required
                               />
                           </FormGroup>
-                          <Button type="submit" class="btn btn-primary">Save</Button>
+                          <Button onClick={packageToggle} type="submit" class="btn btn-primary">Save</Button>
                           
               
                     </Form>
@@ -943,7 +956,7 @@ const handleMealEditSubmit = event => {
                                 value = {quant}
                               />
                           </FormGroup>
-                          <Button type="submit" class="btn btn-primary">Save</Button>
+                          <Button onClick={packageEditditoggle} type="submit" class="btn btn-primary">Save</Button>
                           
               
                      </Form>
@@ -1024,7 +1037,7 @@ const handleMealEditSubmit = event => {
                                   required
                                 />
                             </FormGroup>
-                            <Button type="submit" class="btn btn-primary">Save</Button>
+                            <Button onClick={mealToggle} type="submit" class="btn btn-primary">Save</Button>
                             
                 
                       </Form>
@@ -1069,7 +1082,7 @@ const handleMealEditSubmit = event => {
                                   required
                                 />
                             </FormGroup>
-                            <Button type="submit" class="btn btn-primary">Save</Button>
+                            <Button onClick={mealEditToggle} type="submit" class="btn btn-primary">Save</Button>
                             
                 
                       </Form>

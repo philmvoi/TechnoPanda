@@ -34,7 +34,7 @@ const currColumns = [{
     [
       {
         Header: "Year",
-        accessor: "Year",
+        accessor: "Prev_Year",
         Cell: row => <div style={{ textAlign: "center" }}>{row.value}</div>
       },
       {
