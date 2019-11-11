@@ -260,21 +260,21 @@ const [ig, setIg] = useState({
                    <Form onSubmit={handleSubmit}>
                       <div class="form-row">
                         <div class="form-group col-md-6">
-                          <label for="fname">First Name <i className="text-danger">required</i></label>
+                          <label for="fname">First Name <i className="text-danger">*</i></label>
                           <Input value={fname} onChange = {event => {console.log(event.target.value); setFname(event.target.value)}} name='fname' class="form-control" placeholder="First Name" required/>
                         </div>
                         <div class="form-group col-md-6">
-                          <label for="lname">Last Name <i className="text-danger">required</i></label>
+                          <label for="lname">Last Name <i className="text-danger">*</i></label>
                           <Input value={lname} onChange = {event => setLname(event.target.value)} name="lname" class="form-control" id="lname" placeholder="Last Name" required/>
                         </div>
                       </div>
                       <div class="form-row">
                         <div class="form-group col-md-4">
-                          <label for="phone">Phone <i className="text-danger">required</i></label>
+                          <label for="phone">Phone <i className="text-danger">*</i></label>
                           <Input value={phone} onChange = {event => setPhone(event.target.value)} name="phone" class="form-control" id="phone" placeholder="999-990-0090" required/>
                         </div>
                         <div class="form-group col-md-4">
-                          <label for="email">Email <i className="text-danger">required</i></label>
+                          <label for="email">Email </label>
                           <Input value={email} onChange = {event => setEmail(event.target.value)} name="email" class="form-control" id="email" placeholder="jane@yahoo.com"/>
                         </div>
                         <div class="form-group col-md-4">
@@ -293,7 +293,7 @@ const [ig, setIg] = useState({
                           <Input value={city} onChange = {event => setCity(event.target.value)} name="city" class="form-control" id="city"/>
                         </div>
                         <div class="form-group col-md-4">
-                          <label for="state">State</label>
+                          <label for="state">State <i className="text-danger">*</i></label>
                           <Select id="inputState" class="form-control"
                               closeMenuOnSelect={true}
                               
@@ -301,7 +301,7 @@ const [ig, setIg] = useState({
                               hideSelectedOptions={false}
                               backspaceRemovesValue={false}
                               placeholder="Select a state"
-                              required
+                              required={true}
                               onChange = {event => {
                                 handleValueChange(event.state_id, event.state_name)
                                 // setState(event.state_id)

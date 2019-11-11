@@ -17,11 +17,11 @@ const Select = props => (
 
   />
 );
-    
+
 const CustomerAdd = props => {
 
   
-
+const [active, setActive] = useState(true)
   
   const data = props.getStatesQuery;
   
@@ -75,7 +75,7 @@ const CustomerAdd = props => {
                <Input required onChange = {handleInputChange} name="phone" class="form-control" id="phone" placeholder="999-990-0090"/>
              </div>
              <div class="form-group col-md-4">
-               <label for="email">Email <i className="text-danger">*</i></label>
+               <label for="email">Email </label>
                <Input onChange = {handleInputChange} name="email" class="form-control" id="email" placeholder="jane@yahoo.com"/>
              </div>
              <div class="form-group col-md-4">
@@ -103,7 +103,7 @@ const CustomerAdd = props => {
                    hideSelectedOptions={false}
                    backspaceRemovesValue={false}
                    placeholder="Select a state"
-                 
+                   required={true}
                    onChange = {event => {
                      console.log(event.state_id)
                      state_id = event.state_id
@@ -138,7 +138,9 @@ const CustomerAdd = props => {
                <label for="allergies">Allergies</label>
                <textarea onChange = {handleInputChange} name="allergies"class="form-control" id="allergies" rows="3"></textarea>
              </div>
-           <Button type="submit" class="btn btn-primary">Save</Button>
+           
+              <Button type="submit" class="btn btn-primary">Save</Button>
+              <Button color="dark" href="/#/orders" class="btn btn-primary">Go To Orders</Button>
       </Form>
          
           
