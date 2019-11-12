@@ -132,7 +132,7 @@ const IngredientList = props => {
                             />
                           </FormGroup>
 
-                          <Button onClick={toggle} className="form-control" color="primary" type="submit">Edit Ingredient</Button>
+                          <Button className="form-control" color="primary" type="submit">Edit Ingredient</Button>
               
                     </Form>
           

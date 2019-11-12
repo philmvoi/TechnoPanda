@@ -32,7 +32,7 @@ const [active, setActive] = useState(true)
   props.AddCustomerMutation({
     variables: {
       state: state_id,
-      status: 1,
+      status: 2,
       phone: inputs.phone,
       fname: inputs.fname,
       lname: inputs.lname,
