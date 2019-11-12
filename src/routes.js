@@ -128,8 +128,8 @@ const Category = Loadable({
  
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
- { path: '/', exact: true, name: 'Dashboard', component: Dashboard },
- { path: '/customers', name: 'Customers', component: Customer },
+//  { path: '/', exact: true, name: 'Dashboard', component: Dashboard },
+ { path: '/', exact: true, name: 'Customers', component: Customer },
  { path: '/orders', name: 'Orders', component: Order },
  { path: '/reports', exact:true, name: 'Reports', component: Report },
  { path: '/meals', exact:true, name: 'Meals', component: Meal },

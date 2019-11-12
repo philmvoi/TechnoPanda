@@ -175,7 +175,7 @@ const [ig, setIg] = useState({
          variables: {
            id: row,
            state: _selected.state_id,
-            status: 1,
+            status: 2,
             phone: phone,
             fname: fname,
             lname: lname,

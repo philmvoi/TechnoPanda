@@ -11,7 +11,7 @@ export default {
     // },
     {
       name: 'Customers',
-      url: '/customers',
+      url: '/',
       icon: 'icon-people',
     },
     {

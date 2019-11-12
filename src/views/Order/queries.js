@@ -79,7 +79,7 @@ const getOrdersQuery = gql`
 `;
 
 const AddOrderMutation = gql`
-  mutation($cust: Int!, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String!, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String) {
+  mutation($cust: Int!, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String) {
     createOrder(input:{
         customer_id: $cust,
         order_status_id: $status,
