@@ -104,7 +104,7 @@ const AddOrderMutation = gql`
 `;
 
 const EditOrderMutation = gql`
-  mutation($id: Int!, $cust: Int, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String!, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String) {
+  mutation($id: Int!, $cust: Int, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String) {
     updateOrder(input:{
         customer_id: $cust,
         order_status_id: $status,

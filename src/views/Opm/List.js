@@ -138,7 +138,7 @@ const OpmList = props => {
                             />
                           </FormGroup>
 
-                          <Button onClick={toggle} className="form-control" type="submit">Save</Button>
+                          <Button className="form-control" type="submit">Save</Button>
               
                     </Form>
           

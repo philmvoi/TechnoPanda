@@ -803,7 +803,7 @@ const handleMealEditSubmit = event => {
                         <textarea value={spec} onChange = {event => setSpec(event.target.value)} name="spec"class="form-control" id="spec" rows="4"></textarea>
                   </div>
            
-            <Button onClick={toggle} type="submit" class="btn btn-primary">Save</Button>
+            <Button type="submit" class="btn btn-primary">Save</Button>
         </Form>
           
                   </ModalBody>
@@ -851,22 +851,24 @@ const handleMealEditSubmit = event => {
                                 getOptionValue={(option) => option.package_id}
                                 />
              
-                              <Label> Price</Label>
-                              <Input
-                                name="price"
-                                className="form-control"
-                                onChange = {handlePackageInputChange}
-                                required
-                              />
-                              <Label>Quantity</Label>
+                              <Label>Quantity <i className="text-danger">*</i></Label>
                               <Input
                                 name="quant"
                                 className="form-control"
                                 onChange = {handlePackageInputChange}
                                 required
+                                
+                              />
+
+                              <Label> Price </Label>
+                              <Input
+                                name="price"
+                                className="form-control"
+                                onChange = {handlePackageInputChange}
+                                
                               />
                           </FormGroup>
-                          <Button onClick={packageToggle} type="submit" class="btn btn-primary">Save</Button>
+                          <Button type="submit" class="btn btn-primary">Save</Button>
                           
               
                     </Form>
@@ -935,17 +937,7 @@ const handleMealEditSubmit = event => {
                                 getOptionValue={(option) => option.package_id}
                                 />
              
-                              <Label> Price</Label>
-                              <Input
-                                name="price"
-                                className="form-control"
-                                onChange = {event => {
-                                  setPrice(event.target.value)
-                                }}
-                                required
-                                value={price}
-                              />
-                              <Label>Quantity</Label>
+                              <Label>Quantity <i className="text-danger">*</i></Label>
                               <Input
                                 name="quant"
                                 className="form-control"
@@ -955,8 +947,19 @@ const handleMealEditSubmit = event => {
                                 required
                                 value = {quant}
                               />
+
+                              <Label> Price ></Label>
+                              <Input
+                                name="price"
+                                className="form-control"
+                                onChange = {event => {
+                                  setPrice(event.target.value)
+                                }}
+                                
+                                value={price}
+                              />
                           </FormGroup>
-                          <Button onClick={packageEditditoggle} type="submit" class="btn btn-primary">Save</Button>
+                          <Button  type="submit" class="btn btn-primary">Save</Button>
                           
               
                      </Form>
@@ -1037,7 +1040,7 @@ const handleMealEditSubmit = event => {
                                   required
                                 />
                             </FormGroup>
-                            <Button onClick={mealToggle} type="submit" class="btn btn-primary">Save</Button>
+                            <Button type="submit" class="btn btn-primary">Save</Button>
                             
                 
                       </Form>
@@ -1082,7 +1085,7 @@ const handleMealEditSubmit = event => {
                                   required
                                 />
                             </FormGroup>
-                            <Button onClick={mealEditToggle} type="submit" class="btn btn-primary">Save</Button>
+                            <Button type="submit" class="btn btn-primary">Save</Button>
                             
                 
                       </Form>
