@@ -6,7 +6,7 @@ import 'react-table/react-table.css';
 import {getPopIngredients} from './queries'
 
 const columns = [{
-  Header: "INGREDIENT FREQUENCY",
+  Header: "MOST POPULAR INGREDIENTS",
   columns:
   [
     {

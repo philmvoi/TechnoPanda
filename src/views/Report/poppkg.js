@@ -6,7 +6,7 @@ import 'react-table/react-table.css';
 import {getPopPackages} from './queries';
 
 const columns = [{
-  Header: "PACKAGE FREQUENCY",
+  Header: "MOST POPULAR PACKAGES",
   columns:
   [
     {

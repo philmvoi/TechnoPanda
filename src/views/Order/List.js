@@ -113,7 +113,7 @@ const columns = [{
     {
       Header: "ID",
       accessor: "order_id",
-      width: 60
+      width: 40
     },
     {
       Header: "Customer ID",
@@ -123,15 +123,17 @@ const columns = [{
     {
       Header: "First Name",
       accessor: "customer_first_name",
+      width: 80
     },
     {
       Header: "Last Name",
       accessor: "customer_last_name",
+      width: 80
     },
     {
       Header: "Phone",
       accessor: "customer_phone_number",
-      width: 130
+      width: 110
     },
     {
       Header: "Order Status ID",
@@ -141,6 +143,7 @@ const columns = [{
     {
       Header: "Status",
       accessor: "order_status",
+      width: 80
     },
     {
       Header: "Pay Method ID",
@@ -148,8 +151,9 @@ const columns = [{
       show: false
     },
     {
-      Header: "Pay Method",
-      accessor: "order_payment_method"
+      Header: "Pay Type",
+      accessor: "order_payment_method",
+      width: 70
     },
     {
       Header: "Delivery/Pick-up Id",
@@ -169,6 +173,7 @@ const columns = [{
     {
       Header: "Plan",
       accessor: "plan_type",
+      width: 70
     },
     {
       Header: "Received",
@@ -181,38 +186,43 @@ const columns = [{
     {
       Header: "Delivery Street",
       accessor: "order_delivery_street",
-      width: 270
+      width: 180
     },
     {
       Header: "Delivery City",
-      accessor: "order_delivery_city"
+      accessor: "order_delivery_city",
+      width: 90
     },
     {
-      Header: "Delivery Zip ",
-      accessor: "order_delivery_zipcode"
+      Header: "Zip",
+      accessor: "order_delivery_zipcode",
+      width: 60
     },
     {
       Header: "Complete Date",
-      accessor: "order_completed_date"
+      accessor: "order_completed_date",
+      width: 105
     },
     {
       Header: "Delivery By",
-      accessor: "order_deliver_by"
+      accessor: "order_deliver_by",
+      width: 90
     },
     {
-      Header: "Total",
-      accessor: "order_total_price",
-      Cell: row => <div style={{ textAlign: "right" }}>${row.value}</div>
-    },
-    {
-      Header: "Order Line Total",
+      Header: "Subtotal",
       accessor: "ol_price",
       Cell: row => <div style={{ textAlign: "right" }}>${row.value}</div>
     },
+    // {
+    //   Header: "End Total",
+    //   accessor: "order_total_price",
+    //   width: 70,
+    //   Cell: row => <div style={{ textAlign: "right" }}>${row.value}</div>
+    // },
     {
       Header: " Special Reqs",
       accessor: "special_requirements",
-      width: 270
+      width: 200
     },
     {
       Header: "Payment Amt",
@@ -477,7 +487,7 @@ const handleMealEditSubmit = event => {
         quant: quant.toString(),
         price: price
       },
-      refetchQueries: [{query: getOrderOrderlines}]
+      refetchQueries: [{query: getOrderOrderlines}, {query: getOrdersQuery}]
      })
    }
  }
@@ -497,7 +507,7 @@ const handleMealEditSubmit = event => {
         variables: {
           id: olRow
         },
-        refetchQueries: [{query: getOrderOrderlines}]
+        refetchQueries: [{query: getOrderOrderlines}, {query: getOrdersQuery}]
       })
     }
 
@@ -522,7 +532,7 @@ const handleMealEditSubmit = event => {
            quant: packageInputs.quant,
            price: packageInputs.price
          },
-         refetchQueries: [{query: getOrderOrderlines}]
+         refetchQueries: [{query: getOrderOrderlines}, {query: getOrdersQuery}]
        })
 
     }
@@ -569,7 +579,7 @@ const handleMealEditSubmit = event => {
           zip: zip,
           completed: completed,
           delBy: delBy,
-          total: total,
+          // total: total,
           spec: spec,
           pa: pa
         },
@@ -620,7 +630,7 @@ const handleMealEditSubmit = event => {
                         setZip(rowInfo.row._original.order_delivery_zipcode);
                         setCompleted(rowInfo.row._original.order_completed_date);
                         setDelBy(rowInfo.row._original.order_deliver_by);
-                        setTotal(rowInfo.row._original.order_total_price);
+                        // setTotal(rowInfo.row._original.order_total_price);
                         setSpec(rowInfo.row._original.special_requirements);
                         setReceived(rowInfo.row._original.order_received_date);
                         setPa(rowInfo.row._original.payment_amount);
@@ -787,11 +797,11 @@ const handleMealEditSubmit = event => {
                       <label for="delBy">Delivery By</label>
                         <Input value={delBy} onChange = {event => setDelBy(event.target.value)} name="delBy" class="form-control" id="delBy"/>
                       </div>
-                      <div class="form-group col-md-2">
+                      {/* <div class="form-group col-md-2">
                         <label for="total">Total <i className="text-danger">*</i></label>
                         <Input value={total} onChange = {event => setTotal(event.target.value)} name="total" class="form-control" id="total"/>
-                      </div>
-                      <div class="form-group col-md-2">
+                      </div> */}
+                      <div class="form-group col-md-3">
                       <label for="pa">Payment</label>
                       <Input value={pa} onChange = {event => setPa(event.target.value)} name="pa" class="form-control" id="pa" />
                     </div>
@@ -860,12 +870,12 @@ const handleMealEditSubmit = event => {
                                 
                               />
 
-                              <Label> Price </Label>
+                              <Label> Price <i className="text-danger">*</i> </Label>
                               <Input
                                 name="price"
                                 className="form-control"
                                 onChange = {handlePackageInputChange}
-                                
+                                required
                               />
                           </FormGroup>
                           <Button type="submit" class="btn btn-primary">Save</Button>
@@ -948,12 +958,14 @@ const handleMealEditSubmit = event => {
                                 value = {quant}
                               />
 
-                              <Label> Price ></Label>
+                              <Label> Price <i className="text-danger">*</i></Label>
                               <Input
+                                required
                                 name="price"
                                 className="form-control"
                                 onChange = {event => {
                                   setPrice(event.target.value)
+                                  
                                 }}
                                 
                                 value={price}

@@ -18,6 +18,8 @@ const Select = props => (
   />
 );
 
+let state_id = null;
+
 const CustomerAdd = props => {
 
   
@@ -25,7 +27,7 @@ const [active, setActive] = useState(true)
   
   const data = props.getStatesQuery;
   
-  let state_id = null;
+
   const getFormData = () => {
     console.log(`${inputs}`);
   
@@ -97,7 +99,7 @@ const [active, setActive] = useState(true)
                <label for="state">State <i className="text-danger">*</i></label>
                <Select id="inputState" class="form-control"
                   {...props}
-                   closeMenuOnSelect={false}
+                   closeMenuOnSelect={true}
                    SelectComponent={BaseSelect}
                    value={inputs.state}
                    hideSelectedOptions={false}

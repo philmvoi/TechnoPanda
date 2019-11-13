@@ -46,7 +46,7 @@ const OrderAdd = props => {
       zip: inputs.zip,
       completed: inputs.completed,
       delBy: inputs.delBy,
-      total: inputs.total,
+      // total: inputs.total,
       spec: inputs.spec,
       pa: inputs.pa
     },
@@ -179,13 +179,13 @@ const OrderAdd = props => {
              </div>
 
              <div class="form-group col-md-4">
-               <label for="received">Received <i className="text-danger">*</i></label>
+               <label for="received">Order Received Date<i className="text-danger">*</i></label>
                <Input required onChange = {handleInputChange} name="received" class="form-control" id="received" placeholder="YYYY-MM-DD"/>
              </div>
            </div>
            <div class="form-row">
              <div class="form-group col-md-4">
-               <label for="due">Due <i className="text-danger">*</i></label>
+               <label for="due">Order Due Date<i className="text-danger">*</i></label>
                <Input required onChange = {handleInputChange} name="due" class="form-control" id="received" placeholder="YYYY-MM-DD"/>
              </div>
              <div class="form-group col-md-4">
@@ -211,12 +211,12 @@ const OrderAdd = props => {
              <label for="delBy">Delivery By</label>
                <Input onChange = {handleInputChange} name="delBy" class="form-control" id="delBy"/>
              </div>
-             <div class="form-group col-md-2">
-               <label for="total">Total <i className="text-danger">*</i></label>
+             {/* <div class="form-group col-md-2">
+               <label for="total">Order Total Price <i className="text-danger">*</i></label>
                <Input onChange = {handleInputChange} name="total" class="form-control" id="total"/>
-             </div>
-             <div class="form-group col-md-2">
-             <label for="completed">Payment</label>
+             </div> */}
+             <div class="form-group col-md-3">
+             <label for="completed">Payment Amount</label>
              <Input onChange = {handleInputChange} name="pa" class="form-control" id="pa" />
            </div>
            </div>

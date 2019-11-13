@@ -70,7 +70,6 @@ const getOrdersQuery = gql`
       order_delivery_zipcode
       order_completed_date
       order_deliver_by
-      order_total_price
       special_requirements
       payment_amount
       ol_price
@@ -79,7 +78,7 @@ const getOrdersQuery = gql`
 `;
 
 const AddOrderMutation = gql`
-  mutation($cust: Int!, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String) {
+  mutation($cust: Int!, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String, $zip: String, $completed: String, $delBy: String, $spec: String, $pa: String) {
     createOrder(input:{
         customer_id: $cust,
         order_status_id: $status,
@@ -93,7 +92,6 @@ const AddOrderMutation = gql`
         order_delivery_zipcode: $zip,
         order_completed_date: $completed
         order_deliver_by: $delBy
-        order_total_price: $total
         special_requirements: $spec
         payment_amount: $pa
     
@@ -104,7 +102,7 @@ const AddOrderMutation = gql`
 `;
 
 const EditOrderMutation = gql`
-  mutation($id: Int!, $cust: Int, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String, $zip: String, $completed: String, $delBy: String, $total: String!, $spec: String, $pa: String) {
+  mutation($id: Int!, $cust: Int, $status: Int!, $opm: Int!, $ofm: Int!, $plan: Int!, $due: String, $received: String, $street: String, $city: String, $zip: String, $completed: String, $delBy: String, $spec: String, $pa: String) {
     updateOrder(input:{
         customer_id: $cust,
         order_status_id: $status,
@@ -118,7 +116,6 @@ const EditOrderMutation = gql`
         order_delivery_zipcode: $zip,
         order_completed_date: $completed
         order_deliver_by: $delBy
-        order_total_price: $total
         special_requirements: $spec
         payment_amount: $pa
     

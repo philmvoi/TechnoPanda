@@ -6,7 +6,7 @@ import 'react-table/react-table.css';
 import {getPopMeals} from './queries'
 
 const columns = [{
-  Header: "MEAL FREQUENCY",
+  Header: "MOST POPULAR MEALS",
   columns:
   [
     {
