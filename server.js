@@ -5,6 +5,7 @@ const bodyParser =  require('body-parser')
 const mysql = require('mysql');
 const app = express();
 
+//initialize sequilize
 const Sequilize =require('sequelize');
 const db = new Sequilize('capstone_schema', 'root', 'qpalzm10', {
   host: 'localhost',
